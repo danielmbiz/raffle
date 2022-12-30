@@ -5,7 +5,6 @@ import com.example.raffle.dto.RaffleItemResponse;
 import com.example.raffle.exception.DatabaseException;
 import com.example.raffle.exception.ResourceNotFoundException;
 import com.example.raffle.exception.ValidationException;
-import com.example.raffle.model.Raffle;
 import com.example.raffle.model.RaffleItem;
 import com.example.raffle.repository.ClientRepository;
 import com.example.raffle.repository.RaffleItemRepository;
@@ -35,7 +34,7 @@ public class RaffleItemService {
 
             var raffle = raffleRepository.findById(request.getRaffleId())
                     .orElseThrow(() -> new ValidationException("Rifa não encontrada Id: " + request.getRaffleId()));
-            validEmpty(request.getClientId(),"Cliente não informado");
+            validEmpty(request.getClientId(), "Cliente não informado");
 
             var client = clientRepository.findById(request.getClientId())
                     .orElseThrow(() -> new ValidationException("Cliente não encontrado Id: " + request.getRaffleId()));
@@ -75,7 +74,9 @@ public class RaffleItemService {
                 .collect(Collectors.toList());
     }
 
-    public List<RaffleItemResponse> findByRaffle(Raffle raffle) {
+    public List<RaffleItemResponse> findByRaffle(Long id) {
+        var raffle = raffleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                "Rifa não encontrada Id: " + id + " (Err. Raffle Item Service: 07)"));
         return repository.findByRaffle(raffle)
                 .stream()
                 .map(RaffleItemResponse::of)

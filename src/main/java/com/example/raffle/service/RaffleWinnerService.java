@@ -1,6 +1,5 @@
 package com.example.raffle.service;
 
-import com.example.raffle.dto.RaffleAwardRequest;
 import com.example.raffle.dto.RaffleWinnerResponse;
 import com.example.raffle.exception.DatabaseException;
 import com.example.raffle.exception.ResourceNotFoundException;
@@ -32,20 +31,22 @@ public class RaffleWinnerService {
     @Autowired
     private RaffleRepository raffleRepository;
 
-    public List<RaffleWinnerResponse> sortition(RaffleAwardRequest request) {
+    public List<RaffleWinnerResponse> sortition(Long id) {
         try {
             Random generator = new Random();
-            var raffle = raffleRepository.findById(request.getRaffleId()).orElseThrow(() -> new ResourceNotFoundException(
-                    "Rifa não encontrada Id: " + request.getRaffleId()));
+            var raffle = raffleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                    "Rifa não encontrada Id: " + id));
             var raffleAward = raffleAwardRepository.findByRaffle(raffle);
+
             if (raffle.getType() == TypeRaffle.ALL) {
                 for (int i = 1; i <= raffleAward.size(); i++) {
                     int winner = generator.nextInt(raffleAward.size()) + 1;
                     var raffleItemWinner = raffleItemRepository.findByRaffleAndTicket(raffle, winner).orElseThrow(() -> new ResourceNotFoundException(
-                            "Item de Rifa Vencedor não encontrado Id: " + request.getRaffleId()));
+                            "Item de Rifa Vencedor não encontrado Id: " + id));
                     repository.save(RaffleWinner.of(raffleAward.get(i - 1), raffleItemWinner));
                 }
             }
+
             return repository.findByRaffle(raffle)
                     .stream()
                     .map(RaffleWinnerResponse::of)
@@ -58,14 +59,10 @@ public class RaffleWinnerService {
         }
     }
 
-    public RaffleWinnerResponse findById(Long id) {
-        var raffleWinner = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
-                "Prêmio da Rifa não encontrado Id: " + id + " (Err. Raffle Award Service: 02)"));
-        return RaffleWinnerResponse.of(raffleWinner);
-    }
-
-    public List<RaffleWinnerResponse> findAll() {
-        return repository.findAll()
+    public List<RaffleWinnerResponse> findByRaffle(Long id) {
+        var raffle = raffleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                "Rifa não encontrada Id: " + id + " (Err. Raffle Award Service: 07)"));
+        return repository.findByRaffle(raffle)
                 .stream()
                 .map(RaffleWinnerResponse::of)
                 .collect(Collectors.toList());

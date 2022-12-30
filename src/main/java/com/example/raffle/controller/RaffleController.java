@@ -1,7 +1,7 @@
 package com.example.raffle.controller;
 
-import com.example.raffle.dto.ClientDTO;
-import com.example.raffle.service.ClientService;
+import com.example.raffle.dto.RaffleDTO;
+import com.example.raffle.service.RaffleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,43 +12,42 @@ import java.net.URI;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/clients")
-public class ClienteController {
-
+@RequestMapping(value = "/raffles")
+public class RaffleController {
     @Autowired
-    private ClientService service;
+    private RaffleService service;
 
     @PostMapping
-    public ResponseEntity<ClientDTO> save(@RequestBody ClientDTO request) {
-        var employee = service.save(request);
+    public ResponseEntity<RaffleDTO> save(@RequestBody RaffleDTO request) {
+        var raffleDTO = service.save(request);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/{id}")
-                .buildAndExpand(employee.getId())
+                .buildAndExpand(raffleDTO.getId())
                 .toUri();
-        return ResponseEntity.created(uri).body(employee);
+        return ResponseEntity.created(uri).body(raffleDTO);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ClientDTO> findById(@PathVariable Long id) {
-        var client = service.findById(id);
-        return ResponseEntity.ok().body(client);
+    public ResponseEntity<RaffleDTO> findById(@PathVariable Long id) {
+        var raffleDTO = service.findById(id);
+        return ResponseEntity.ok().body(raffleDTO);
 
     }
 
     @GetMapping
-    public ResponseEntity<List<ClientDTO>> findAll() {
+    public ResponseEntity<List<RaffleDTO>> findAll() {
         var list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody ClientDTO obj) {
-        var clienteDto = service.update(id, obj);
+    public ResponseEntity<RaffleDTO> update(@PathVariable Long id, @RequestBody RaffleDTO obj) {
+        var raffleDTO = service.update(id, obj);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/{id}")
-                .buildAndExpand(clienteDto.getId())
+                .buildAndExpand(raffleDTO.getId())
                 .toUri();
-        return ResponseEntity.created(uri).body(clienteDto);
+        return ResponseEntity.created(uri).body(raffleDTO);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -144,6 +144,7 @@ public class ClientServiceTest {
 
     @Test
     public void updateClient_WithValidData_ReturnsClient() {
+        when(viaCepClient.findCepByCep("88840000")).thenReturn(VIA_CEP_DTO);
         when(repository.findById(anyLong())).thenReturn(Optional.of(CLIENT));
         when(repository.save(any())).thenReturn(CLIENT);
 
@@ -159,6 +160,7 @@ public class ClientServiceTest {
 
     @Test
     public void updateClient_DataIntegraty_RuntimeException() {
+        when(viaCepClient.findCepByCep("88840000")).thenReturn(VIA_CEP_DTO);
         when(repository.findById(anyLong())).thenReturn(Optional.of(CLIENT));
         when(repository.save(any())).thenThrow(RuntimeException.class);
         var dto = ClientDTO.of(CLIENT);

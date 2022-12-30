@@ -54,6 +54,10 @@ public class ClientDTO {
         return cel;
     }
 
+    public void setCel(String cel) {
+        this.cel = cel;
+    }
+
     public String getPostCode() {
         return postCode;
     }
@@ -84,10 +88,6 @@ public class ClientDTO {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public void setCel(String cel) {
-        this.cel = cel;
     }
 
     public static ClientDTO of(Client client) {

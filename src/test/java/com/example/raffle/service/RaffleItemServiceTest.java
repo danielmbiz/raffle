@@ -173,10 +173,11 @@ public class RaffleItemServiceTest {
     public void findByRaffleRaffleItem_WithValidData_ReturnsListRaffleItemResponse() {
         List<RaffleItem> list = new ArrayList<>();
         list.add(RAFFLE_ITEM);
+        when(raffleRepository.findById(anyLong())).thenReturn(Optional.of(RAFFLE));
         when(repository.findByRaffle(RAFFLE)).thenReturn(list);
 
         var raffleItemResponse = RaffleItemResponse.of(RAFFLE_ITEM);
-        var sut = service.findByRaffle(RAFFLE);
+        var sut = service.findByRaffle(1l);
 
         assertThat(sut).asList().isNotEmpty();
         assertThat(sut).asList().hasSize(1);

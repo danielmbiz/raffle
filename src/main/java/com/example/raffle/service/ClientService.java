@@ -68,6 +68,12 @@ public class ClientService {
         try {
             findById(id);
             var client = Client.of(obj);
+            var viaCep = viaCepClient.findCepByCep(client.getPostCode());
+            validPostCode(viaCep.getCep());
+            client.setPostCode(viaCep.getCep());
+            client.setCity(viaCep.getLocalidade());
+            client.setState(viaCep.getUf());
+            client.setIbgeCity(viaCep.getIbge());
             client.setId(id);
             return ClientDTO.of(repository.save(client));
         } catch (RuntimeException e) {

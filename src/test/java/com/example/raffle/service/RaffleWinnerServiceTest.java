@@ -64,8 +64,7 @@ public class RaffleWinnerServiceTest {
         when(repository.findByRaffle(any())).thenReturn(listWin);
 
         var raffleWinnerResponse = RaffleWinnerResponse.of(RAFFLE_WINNER);
-        var raffleAward = new RaffleAwardRequest(RAFFLE.getId(), "Prêmio", 0.00);
-        var sut = service.sortition(raffleAward);
+        var sut = service.sortition(1L);
 
         assertNotNull(sut);
         assertEquals(RaffleWinnerResponse.class, sut.get(0).getClass());
@@ -76,51 +75,7 @@ public class RaffleWinnerServiceTest {
 
     @Test
     public void sortitionRaffleWinne_DataIntegraty_EmptyRaffleAndAward_ResourceNotFound() {
-        var raffleAward = new RaffleAwardRequest(RAFFLE.getId(), "Prêmio", 0.00);
-
-        assertThatThrownBy(() -> service.sortition(raffleAward)).isInstanceOf(ResourceNotFoundException.class);
-    }
-
-    @Test
-    public void findByIdRaffleWinner_WithValidData_ReturnsRaffleWinnerReponse() {
-        when(repository.findById(anyLong())).thenReturn(Optional.of(RAFFLE_WINNER));
-
-        var raffleWinnerResponse = RaffleWinnerResponse.of(RAFFLE_WINNER);
-        var sut = service.findById(1L);
-
-        assertNotNull(sut);
-        assertEquals(RaffleWinnerResponse.class, sut.getClass());
-        assertEquals(raffleWinnerResponse.getId(), sut.getId());
-        assertEquals(raffleWinnerResponse.getRaffleItem(), sut.getRaffleItem());
-        assertEquals(raffleWinnerResponse.getRaffleAward(), sut.getRaffleAward());
-    }
-
-    @Test
-    public void findByIdRaffleWinner_WithInvalidData_ReturnsResourceNotFound() {
-        when(repository.findById(anyLong())).thenThrow(new ResourceNotFoundException(""));
-
-        try {
-            service.findById(anyLong());
-        } catch (ResourceNotFoundException e) {
-            assertEquals(ResourceNotFoundException.class, e.getClass());
-        }
-    }
-
-    @Test
-    public void findByAllRaffleWinner_WithValidData_ReturnsListRaffleWinnerResponse() {
-        List<RaffleWinner> list = new ArrayList<>();
-        list.add(RAFFLE_WINNER);
-        when(repository.findAll()).thenReturn(list);
-
-        var raffleWinnerResponse = RaffleWinnerResponse.of(RAFFLE_WINNER);
-        var sut = service.findAll();
-
-        assertThat(sut).asList().isNotEmpty();
-        assertThat(sut).asList().hasSize(1);
-        assertEquals(RaffleWinnerResponse.class, sut.get(0).getClass());
-        assertEquals(raffleWinnerResponse.getId(), sut.get(0).getId());
-        assertEquals(raffleWinnerResponse.getRaffleItem(), sut.get(0).getRaffleItem());
-        assertEquals(raffleWinnerResponse.getRaffleAward(), sut.get(0).getRaffleAward());
+        assertThatThrownBy(() -> service.sortition(1L)).isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
