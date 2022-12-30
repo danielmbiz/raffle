@@ -1,0 +1,19 @@
+version: "3"
+services: 
+
+  raffle-db:
+    image: postgres:11
+    container_name: raffle-db
+    restart: always
+    networks:
+      - sales-network
+    environment:
+      - POSTGRES_DB=raffle-db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - 5432:5432  
+
+networks:
+  sales-network:
+    driver: bridge

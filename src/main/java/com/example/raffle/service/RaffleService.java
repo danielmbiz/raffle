@@ -1,0 +1,74 @@
+package com.example.raffle.service;
+
+import com.example.raffle.dto.RaffleDTO;
+import com.example.raffle.exception.DatabaseException;
+import com.example.raffle.exception.ResourceNotFoundException;
+import com.example.raffle.exception.ValidationException;
+import com.example.raffle.model.Raffle;
+import com.example.raffle.repository.RaffleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class RaffleService {
+
+    @Autowired
+    private RaffleRepository repository;
+
+    public RaffleDTO save(RaffleDTO request) {
+        try {
+            var raffle = repository.save(Raffle.of(request));
+            return RaffleDTO.of(raffle);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("(Err. Raffle Service: 01) " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DatabaseException("Erro não definido");
+        }
+    }
+
+    public RaffleDTO findById(Long id) {
+        var raffle = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                "Rafflee não encontrado Id: " + id + " (Err. Raffle Service: 02)"));
+        return RaffleDTO.of(raffle);
+    }
+
+    public List<RaffleDTO> findAll() {
+        return repository.findAll()
+                .stream()
+                .map(RaffleDTO::of)
+                .collect(Collectors.toList());
+    }
+
+    public RaffleDTO update(Long id, RaffleDTO obj) {
+        try {
+            findById(id);
+            var raffle = Raffle.of(obj);
+            raffle.setId(id);
+            return RaffleDTO.of(repository.save(raffle));
+        } catch (RuntimeException e) {
+            throw new ValidationException("(Err. Raffle Service: 03) " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DatabaseException("(Err. Raffle Service: 04) " + e.getMessage());
+        }
+    }
+
+    public void delete(Long id) {
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(
+                    "Rafflee não encontrado ID: " + id + " (Err. Raffle Service: 05)");
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("(Err. Raffle Service: 06) " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
