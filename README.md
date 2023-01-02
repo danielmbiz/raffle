@@ -5,11 +5,6 @@
 API que simula o cadastro de sorteio de rifas.
 É utilizado o OpenFeign para buscar informações de endereço do cliente a partir do CEP na API do ViaCep https://viacep.com.br/
 
-# Seções
-
-* [Clientes](#Clientes)
-* * [Incluir Novo Clientes](#POST---Incluir-Novo-Cliente)
-
 # Tecnologia utilizada
 * Java 17
 * Spring Boot 2.7.7
@@ -20,6 +15,38 @@ API que simula o cadastro de sorteio de rifas.
 * PostgreSQL (Container)
 * Docker
 * docker-compose
+
+# Seções
+
+* [Clientes](#Clientes)
+* * [Incluir Novo Clientes](#POST---Incluir-Novo-Cliente)
+* * [GET - Lista Cliente por ID](#GET---Lista-Cliente-por-ID)
+* * [GET - Lista Todos os Clientes](#GET---Listar-Todos-os-Clientes)
+* * [PUT - ALterar Cliente](#PUT---Alterar-Cliente)
+* * [DELETE - Excluir Cliente](#DELETE---Excluir-Cliente)
+* [Rifa](#Rifa)
+* * [POST - Incluir Nova Rifa](#POST---Incluir-Nova-Rifa)
+* * [GET - Lista Rifa por ID](#GET---Lista-Rifa-por-ID)
+* * [GET - Listar Todas as Rifas](#GET---Listar-Todas-as-Rifas)
+* * [PUT - Alterar Rifa](#PUT---Alterar-Rifa)
+* [DELETE - Excluir Rifa](#DELETE---Excluir-Rifa)
+* [Prêmios da Rifa](#Prêmios-da-Rifa)
+* * [POST - Incluir Novo Prêmio da Rifa](#POST---Incluir-Novo-Prêmio-da-Rifa)
+* * [GET - Listar Prêmio da Rifa por ID](#GET---Lista-Prêmio-da-Rifa-por-ID)
+* * [GET - Listar Prêmio da Rifa pela Rifa](#GET---Listar-Prêmios-da-Rifas-pela-Rifa)
+* * [GET - Listar Todos os Prêmios da Rifa](#GET---Listar-Todos-os-Prêmios-da-Rifas)
+* * [PUT - Alterar Prêmio da Rifa](#PUT---Alterar-Prêmio-da-Rifa)
+* * [DELETE - Excluir Prêmio da Rifa](#DELETE---Excluir-Prêmio-da-Rifa)
+* [Itens da Rifa](#Itens-da-Rifa)
+* * [POST - Incluir Novo Item da Rifa](#POST---Incluir-Novo-Item-da-Rifa)
+* * [GET - Lista Item da Rifa por ID](#GET---Lista-Item-da-Rifa-por-ID)
+* * [GET - Listar Itens da Rifa pela Rifa](#GET---Listar-Itens-da-Rifas-pela-Rifa)
+* * [GET - Listar Todos os Itens da Rifa](#GET---Listar-Todos-os-Itens-da-Rifas)
+* * [DELETE - Excluir Item da Rifa](#DELETE---Excluir-Item-da-Rifa)
+* [Ganhadores da Rifa](#Ganhadores-da-Rifa)
+* * [POST - Novo Sorteio da Rifa](#POST---Novo-Sorteio-da-Rifa)
+* * [GET - Listar Ganhadores da Rifa pela Rifa](#GET---Listar-Ganhadores-da-Rifas-pela-Rifa)
+* * [DELETE - Excluir Ganhadores da Rifa](#DELETE---Excluir-Ganhador-da-Rifa)
 
 # Clientes
 
