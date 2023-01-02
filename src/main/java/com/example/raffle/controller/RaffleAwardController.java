@@ -3,6 +3,7 @@ package com.example.raffle.controller;
 import com.example.raffle.dto.RaffleAwardRequest;
 import com.example.raffle.dto.RaffleAwardResponse;
 import com.example.raffle.dto.RaffleDTO;
+import com.example.raffle.model.Raffle;
 import com.example.raffle.service.RaffleAwardService;
 import com.example.raffle.service.RaffleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,12 @@ public class RaffleAwardController {
     @GetMapping
     public ResponseEntity<List<RaffleAwardResponse>> findAll() {
         var list = service.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/raffle/{idRaffle}")
+    public ResponseEntity<List<RaffleAwardResponse>> findByRaffle(@PathVariable Long idRaffle) {
+        var list = service.findByRaffle(idRaffle);
         return ResponseEntity.ok().body(list);
     }
 

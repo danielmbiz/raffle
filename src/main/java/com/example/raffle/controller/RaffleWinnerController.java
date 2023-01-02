@@ -28,9 +28,9 @@ public class RaffleWinnerController {
 
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(id);
+    @DeleteMapping(value = "/raffle/{raffleId}")
+    public ResponseEntity<Void> delete(@PathVariable Long raffleId) {
+        service.delete(raffleId);
         return ResponseEntity.noContent().build();
     }
 }

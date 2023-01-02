@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -74,7 +75,10 @@ public class RaffleWinnerService {
                 int winner = generator.nextInt(raffle.getTickets()) + 1;
                 raffleItemWinner = raffleItemRepository.findByRaffleAndTicket(raffle, winner);
                 if ((raffleItemWinner.isPresent()) || (raffle.getType() == TypeRaffle.ALL)) {
-                    bValid = false;
+                    var raffleItem = repository.findByRaffleWinner(raffleItemWinner.get().getId());
+                    if (raffleItem.isEmpty()) {
+                        bValid = false;
+                    }
                 }
             }
             if (raffleItemWinner.isPresent()) {
@@ -92,12 +96,20 @@ public class RaffleWinnerService {
                 .collect(Collectors.toList());
     }
 
-    public void delete(Long id) {
+    @Transactional
+    public void delete(Long raffleId) {
         try {
-            repository.deleteById(id);
+            var raffle = raffleRepository.findById(raffleId).orElseThrow(() -> new ResourceNotFoundException(
+                    "Rifa não encontrada Id: " + raffleId + " (Err. Raffle Award Service: 07)"));
+            var raffleWinnerIds = repository.findByRaffleWinnerId(raffle);
+            repository.deleteByIdIn(raffleWinnerIds);
+            raffle.setStatus(StatusRaffle.OPEN);
+            raffleRepository.save(raffle);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(
-                    "Prêmio da Rifa não encontrado ID: " + id + " (Err. Raffle Service: 05)");
+                    "Prêmio da Rifa não encontrado ID: " + raffleId + " (Err. Raffle Service: 05)");
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException(e.getMessage());
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("(Err. Raffle Award Service: 06) " + e.getMessage());
         } catch (Exception e) {

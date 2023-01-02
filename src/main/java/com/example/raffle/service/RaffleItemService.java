@@ -15,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,15 +35,17 @@ public class RaffleItemService {
             validEmpty(request.getRaffleId(), "Rifa não informada");
 
             var raffle = raffleRepository.findById(request.getRaffleId())
-                    .orElseThrow(() -> new ValidationException("Rifa não encontrada Id: " + request.getRaffleId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Rifa não encontrada Id: " + request.getRaffleId()));
             validEmpty(request.getClientId(), "Cliente não informado");
 
             var client = clientRepository.findById(request.getClientId())
-                    .orElseThrow(() -> new ValidationException("Cliente não encontrado Id: " + request.getRaffleId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado Id: " + request.getRaffleId()));
             validTicketExists(raffle.getTickets(), request.getTicket());
             validTciketSold(raffle, request.getTicket());
             var raffleItem = repository.save(RaffleItem.of(request, raffle, client));
             return RaffleItemResponse.of(raffleItem);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException(e.getMessage());
         } catch (ValidationException e) {
             throw new ValidationException(e.getMessage());
         } catch (Exception e) {
@@ -53,7 +56,7 @@ public class RaffleItemService {
 
     private void validTicketExists(Integer tickets, Integer ticket) {
         if ((tickets < ticket) || (ticket == 0)) {
-            throw new ValidationException("Número da rifa não existe, número: " + ticket);
+            throw new ResourceNotFoundException("Número da rifa não existe, número: " + ticket);
         }
     }
 

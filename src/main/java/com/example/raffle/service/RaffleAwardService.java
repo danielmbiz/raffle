@@ -58,6 +58,15 @@ public class RaffleAwardService {
                 .collect(Collectors.toList());
     }
 
+    public List<RaffleAwardResponse> findByRaffle(Long idRaffle) {
+        var raffle = raffleRepository.findById(idRaffle)
+                .orElseThrow(() -> new ValidationException("Rifa não encontrado Id: " + idRaffle));
+        return repository.findByRaffle(raffle)
+                .stream()
+                .map(RaffleAwardResponse::of)
+                .collect(Collectors.toList());
+    }
+
     public RaffleAwardResponse update(Long id, RaffleAwardRequest obj) {
         try {
             var raffleAwardResponse = findById(id);

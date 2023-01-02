@@ -6,7 +6,6 @@ import com.example.raffle.dto.ViaCepDTO;
 import com.example.raffle.exception.DatabaseException;
 import com.example.raffle.exception.FeignException;
 import com.example.raffle.exception.ResourceNotFoundException;
-import com.example.raffle.exception.ValidationException;
 import com.example.raffle.model.Client;
 import com.example.raffle.repository.ClientRepository;
 import org.junit.jupiter.api.Test;

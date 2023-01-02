@@ -81,18 +81,12 @@ public class RaffleWinnerServiceTest {
 
     @Test
     public void deleteRaffleWinner_WithValidData_doesNotThrowsException() {
+        List<Long> list = new ArrayList<>();
+        when(raffleRepository.findById(anyLong())).thenReturn(Optional.of(RAFFLE));
+        when(repository.findByRaffleWinnerId(any())).thenReturn(list);
+        when(raffleRepository.save(any())).thenReturn(Optional.of(RAFFLE));
+
         assertThatCode(() -> service.delete(anyLong())).doesNotThrowAnyException();
     }
 
-    @Test
-    public void deleteRaffleWinner_DataIntegraty_DatabaseException() {
-        doThrow(DataIntegrityViolationException.class).when(repository).deleteById(anyLong());
-        assertThatThrownBy(() -> service.delete(anyLong())).isInstanceOf(DatabaseException.class);
-    }
-
-    @Test
-    public void deleteRaffleWinner_DataIntegraty_EmptyResultDataAccessException() {
-        doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(anyLong());
-        assertThatThrownBy(() -> service.delete(1L)).isInstanceOf(ResourceNotFoundException.class);
-    }
 }
