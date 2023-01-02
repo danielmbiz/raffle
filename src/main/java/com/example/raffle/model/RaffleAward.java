@@ -1,8 +1,7 @@
 package com.example.raffle.model;
 
 import com.example.raffle.dto.RaffleAwardRequest;
-import com.example.raffle.dto.RaffleAwardResponse;
-import com.example.raffle.dto.RaffleItemRequest;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +13,7 @@ public class RaffleAward {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "raffle_id", nullable = false)
     private Raffle raffle;
@@ -21,6 +21,7 @@ public class RaffleAward {
     @NotBlank(message = "Descrição é obrigatório")
     private String description;
     private Double cost;
+    @JsonIgnore
     @OneToOne(mappedBy = "raffleAward")
     private RaffleWinner raffleWinner;
 
@@ -74,6 +75,7 @@ public class RaffleAward {
         var raffleAward = new RaffleAward();
         raffleAward.setRaffle(raffle);
         raffleAward.setDescription(request.getDescription());
+        raffleAward.setCost(request.getCost());
         return raffleAward;
     }
 }

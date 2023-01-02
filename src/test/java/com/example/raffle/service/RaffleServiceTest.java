@@ -5,6 +5,7 @@ import com.example.raffle.exception.DatabaseException;
 import com.example.raffle.exception.ResourceNotFoundException;
 import com.example.raffle.model.Raffle;
 import com.example.raffle.model.Raffle;
+import com.example.raffle.model.enums.StatusRaffle;
 import com.example.raffle.model.enums.TypeRaffle;
 import com.example.raffle.repository.RaffleRepository;
 import org.junit.jupiter.api.Test;
@@ -32,8 +33,8 @@ import static org.mockito.Mockito.when;
 public class RaffleServiceTest {
 
     public final static LocalDate DATE = LocalDate.parse("2022-12-28");
-    public final static Raffle RAFFLE = new Raffle(null, "Rifa", DATE, TypeRaffle.ALL, 50, 10.00);
-    public final static Raffle INVALID_RAFFLE = new Raffle(null, "", null, null, 0, 0.0);
+    public final static Raffle RAFFLE = new Raffle(null, "Rifa", DATE, TypeRaffle.ALL, 50, 10.00, StatusRaffle.OPEN);
+    public final static Raffle INVALID_RAFFLE = new Raffle(null, "", null, null, 0, 0.0, null);
 
     @InjectMocks
     private RaffleService service;

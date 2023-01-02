@@ -1,6 +1,7 @@
 package com.example.raffle.dto;
 
 import com.example.raffle.model.Raffle;
+import com.example.raffle.model.enums.StatusRaffle;
 import com.example.raffle.model.enums.TypeRaffle;
 import org.springframework.beans.BeanUtils;
 
@@ -14,6 +15,7 @@ public class RaffleDTO {
     private TypeRaffle type;
     private Integer tickets;
     private Double price;
+    private StatusRaffle status;
 
     public RaffleDTO() {
     }
@@ -64,6 +66,14 @@ public class RaffleDTO {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public StatusRaffle getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusRaffle status) {
+        this.status = status;
     }
 
     public static RaffleDTO of(Raffle raffle) {

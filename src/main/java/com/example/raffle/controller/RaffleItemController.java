@@ -48,16 +48,6 @@ public class RaffleItemController {
 
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<RaffleItemResponse> update(@PathVariable Long id, @RequestBody RaffleItemRequest obj) {
-        var raffleItemResponse = service.update(id, obj);
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/{id}")
-                .buildAndExpand(raffleItemResponse.getId())
-                .toUri();
-        return ResponseEntity.created(uri).body(raffleItemResponse);
-    }
-
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);

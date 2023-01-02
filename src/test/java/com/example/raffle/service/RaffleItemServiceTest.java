@@ -8,6 +8,7 @@ import com.example.raffle.exception.ValidationException;
 import com.example.raffle.model.Client;
 import com.example.raffle.model.Raffle;
 import com.example.raffle.model.RaffleItem;
+import com.example.raffle.model.enums.StatusRaffle;
 import com.example.raffle.model.enums.TypeRaffle;
 import com.example.raffle.repository.ClientRepository;
 import com.example.raffle.repository.RaffleItemRepository;
@@ -37,7 +38,7 @@ import static org.mockito.Mockito.when;
 public class RaffleItemServiceTest {
     public final static LocalDate DATE = LocalDate.parse("2022-12-28");
     public final static Client CLIENT = new Client(1L, "Daniel", "05386026941", "daniel@daniel.com", "55 48 99999-9999", "88840000");
-    public final static Raffle RAFFLE = new Raffle(1L, "Rifa", DATE, TypeRaffle.ALL, 50, 10.00);
+    public final static Raffle RAFFLE = new Raffle(1L, "Rifa", DATE, TypeRaffle.ALL, 50, 10.00, StatusRaffle.OPEN);
     public final static RaffleItem RAFFLE_ITEM = new RaffleItem(null, RAFFLE, CLIENT, 50);
     public final static Client CLIENT_EMPTY = new Client();
     public final static Raffle RAFFLE_EMPTY = new Raffle();
@@ -185,50 +186,6 @@ public class RaffleItemServiceTest {
         assertEquals(raffleItemResponse.getRaffle(), sut.get(0).getRaffle());
         assertEquals(raffleItemResponse.getClient(), sut.get(0).getClient());
         assertEquals(raffleItemResponse.getTicket(), sut.get(0).getTicket());
-    }
-
-    @Test
-    public void updateRaffleItem_WithValidData_ReturnsRaffleItemResponse() {
-        when(repository.findById(anyLong())).thenReturn(Optional.of(RAFFLE_ITEM));
-        when(repository.save(any())).thenReturn(RAFFLE_ITEM);
-
-        var raffleItemResponse = RaffleItemResponse.of(RAFFLE_ITEM);
-        var dto = new RaffleItemRequest(
-                RAFFLE_ITEM.getRaffle().getId(),
-                RAFFLE_ITEM.getClient().getId(),
-                RAFFLE_ITEM.getTicket());
-        var sut = service.update(1L, dto);
-
-        assertNotNull(sut);
-        assertEquals(RaffleItemResponse.class, sut.getClass());
-        assertEquals(raffleItemResponse.getRaffle(), sut.getRaffle());
-        assertEquals(raffleItemResponse.getClient(), sut.getClient());
-        assertEquals(raffleItemResponse.getTicket(), sut.getTicket());
-
-    }
-
-    @Test
-    public void updateRaffleItem_DataIntegraty_RuntimeException() {
-        when(repository.findById(anyLong())).thenReturn(Optional.of(RAFFLE_ITEM));
-        when(repository.save(any())).thenThrow(RuntimeException.class);
-        var dto = new RaffleItemRequest(
-                RAFFLE_ITEM.getRaffle().getId(),
-                RAFFLE_ITEM.getClient().getId(),
-                RAFFLE_ITEM.getTicket());
-
-        assertThatThrownBy(() -> service.update(1L, dto)).isInstanceOf(RuntimeException.class);
-    }
-
-    @Test
-    public void updateRaffleItem_WithInvaliddData_ReturnsValidationException() {
-        when(repository.findById(999L)).thenReturn(Optional.of(RAFFLE_ITEM));
-        when(repository.save(any())).thenReturn(RAFFLE_ITEM);
-        var dto = new RaffleItemRequest(
-                RAFFLE_ITEM.getRaffle().getId(),
-                RAFFLE_ITEM.getClient().getId(),
-                RAFFLE_ITEM.getTicket());
-
-        assertThatThrownBy(() -> service.update(1L, dto)).isInstanceOf(ValidationException.class);
     }
 
     @Test

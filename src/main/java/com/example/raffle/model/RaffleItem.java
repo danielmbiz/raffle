@@ -1,7 +1,7 @@
 package com.example.raffle.model;
 
 import com.example.raffle.dto.RaffleItemRequest;
-import org.springframework.beans.BeanUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,6 +21,7 @@ public class RaffleItem {
     private Client client;
     @NotNull
     private Integer ticket;
+    @JsonIgnore
     @OneToOne(mappedBy = "raffleItem")
     private RaffleWinner raffleWinner;
 

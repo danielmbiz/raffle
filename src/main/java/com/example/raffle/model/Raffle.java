@@ -1,7 +1,9 @@
 package com.example.raffle.model;
 
 import com.example.raffle.dto.RaffleDTO;
+import com.example.raffle.model.enums.StatusRaffle;
 import com.example.raffle.model.enums.TypeRaffle;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
@@ -25,21 +27,25 @@ public class Raffle {
     private TypeRaffle type;
     private Integer tickets;
     private Double price;
+    private StatusRaffle status;
+    @JsonIgnore
     @OneToMany(mappedBy = "raffle")
     private List<RaffleAward> raffleAwards;
+    @JsonIgnore
     @OneToMany(mappedBy = "raffle")
     private List<RaffleItem> raffleItems;
 
     public Raffle() {
     }
 
-    public Raffle(Long id, String description, LocalDate dateAward, TypeRaffle type, Integer tickets, Double price) {
+    public Raffle(Long id, String description, LocalDate dateAward, TypeRaffle type, Integer tickets, Double price, StatusRaffle status) {
         this.id = id;
         this.description = description;
         this.dateAward = dateAward;
         this.type = type;
         this.tickets = tickets;
         this.price = price;
+        this.status = status;
     }
 
     public Long getId() {
@@ -104,6 +110,14 @@ public class Raffle {
 
     public void setRaffleItems(List<RaffleItem> raffleItems) {
         this.raffleItems = raffleItems;
+    }
+
+    public StatusRaffle getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusRaffle status) {
+        this.status = status;
     }
 
     public static Raffle of(RaffleDTO dto) {

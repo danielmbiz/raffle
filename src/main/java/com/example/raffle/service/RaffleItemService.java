@@ -5,6 +5,7 @@ import com.example.raffle.dto.RaffleItemResponse;
 import com.example.raffle.exception.DatabaseException;
 import com.example.raffle.exception.ResourceNotFoundException;
 import com.example.raffle.exception.ValidationException;
+import com.example.raffle.model.Raffle;
 import com.example.raffle.model.RaffleItem;
 import com.example.raffle.repository.ClientRepository;
 import com.example.raffle.repository.RaffleItemRepository;
@@ -38,7 +39,8 @@ public class RaffleItemService {
 
             var client = clientRepository.findById(request.getClientId())
                     .orElseThrow(() -> new ValidationException("Cliente não encontrado Id: " + request.getRaffleId()));
-
+            validTicketExists(raffle.getTickets(), request.getTicket());
+            validTciketSold(raffle, request.getTicket());
             var raffleItem = repository.save(RaffleItem.of(request, raffle, client));
             return RaffleItemResponse.of(raffleItem);
         } catch (ValidationException e) {
@@ -46,6 +48,19 @@ public class RaffleItemService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new ValidationException("Erro não definido");
+        }
+    }
+
+    private void validTicketExists(Integer tickets, Integer ticket) {
+        if ((tickets < ticket) || (ticket == 0)) {
+            throw new ValidationException("Número da rifa não existe, número: " + ticket);
+        }
+    }
+
+    private void validTciketSold(Raffle raffle, Integer ticket) {
+        var raffleItemValid = repository.findByRaffleAndTicket(raffle, ticket);
+        if (raffleItemValid.isPresent()) {
+            throw new ValidationException("Número de rifa já vendido, número: "+ticket);
         }
     }
 
@@ -81,20 +96,6 @@ public class RaffleItemService {
                 .stream()
                 .map(RaffleItemResponse::of)
                 .collect(Collectors.toList());
-    }
-
-    public RaffleItemResponse update(Long id, RaffleItemRequest obj) {
-        try {
-            var raffleItemResponse = findById(id);
-            var raffleItem = RaffleItem.of(obj, raffleItemResponse.getRaffle(), raffleItemResponse.getClient());
-            raffleItem.setId(id);
-            return RaffleItemResponse.of(repository.save(raffleItem));
-        } catch (RuntimeException e) {
-            throw new ValidationException("(Err. Raffle Service: 03) " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new DatabaseException("(Err. Raffle Service: 04) " + e.getMessage());
-        }
     }
 
     public void delete(Long id) {

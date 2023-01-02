@@ -50,6 +50,7 @@ public class RaffleAwardResponse {
         raffleAwardResponse.setId(request.getId());
         raffleAwardResponse.setRaffle(request.getRaffle());
         raffleAwardResponse.setDescription(request.getDescription());
+        raffleAwardResponse.setCost(request.getCost());
         return raffleAwardResponse;
     }
 

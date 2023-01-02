@@ -7,6 +7,7 @@ import com.example.raffle.exception.ResourceNotFoundException;
 import com.example.raffle.exception.ValidationException;
 import com.example.raffle.model.Raffle;
 import com.example.raffle.model.RaffleAward;
+import com.example.raffle.model.enums.StatusRaffle;
 import com.example.raffle.model.enums.TypeRaffle;
 import com.example.raffle.repository.RaffleAwardRepository;
 import com.example.raffle.repository.RaffleRepository;
@@ -34,7 +35,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class RaffleAwardServiceTest {
     public final static LocalDate DATE = LocalDate.parse("2022-12-28");
-    public final static Raffle RAFFLE = new Raffle(1L, "Rifa", DATE, TypeRaffle.ALL, 50, 10.00);
+    public final static Raffle RAFFLE = new Raffle(1L, "Rifa", DATE, TypeRaffle.ALL, 50, 10.00, StatusRaffle.OPEN);
     public final static RaffleAward RAFFLE_AWARD = new RaffleAward(1L, RAFFLE, "Prêmio de R$500", 0.0);
 
     @InjectMocks

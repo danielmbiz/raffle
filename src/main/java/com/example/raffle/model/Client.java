@@ -1,6 +1,7 @@
 package com.example.raffle.model;
 
 import com.example.raffle.dto.ClientDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
@@ -28,6 +29,7 @@ public class Client {
     private String city;
     private String ibgeCity;
     private String state;
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<RaffleItem> raffleItems;
 

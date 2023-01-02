@@ -32,8 +32,13 @@ public class RaffleWinnerResponse {
         this.raffleAward = raffleAward;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public static RaffleWinnerResponse of(RaffleWinner request) {
         var raffleWinnerResponse = new RaffleWinnerResponse();
+        raffleWinnerResponse.setId(request.getId());
         raffleWinnerResponse.setRaffleAward(request.getRaffleAward());
         raffleWinnerResponse.setRaffleItem(request.getRaffleItem());
         return raffleWinnerResponse;

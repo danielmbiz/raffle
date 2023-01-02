@@ -8,6 +8,7 @@ import com.example.raffle.model.Raffle;
 import com.example.raffle.model.RaffleAward;
 import com.example.raffle.model.RaffleItem;
 import com.example.raffle.model.RaffleWinner;
+import com.example.raffle.model.enums.StatusRaffle;
 import com.example.raffle.model.enums.TypeRaffle;
 import com.example.raffle.repository.RaffleAwardRepository;
 import com.example.raffle.repository.RaffleItemRepository;
@@ -39,17 +40,28 @@ public class RaffleWinnerService {
         try {
             var raffle = raffleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
                     "Rifa não encontrada Id: " + id));
+            validStatusRaffle(raffle.getStatus());
             var raffleAward = raffleAwardRepository.findByRaffle(raffle);
             setWinner(raffle, raffleAward);
+            raffle.setStatus(StatusRaffle.CLOSE);
+            raffleRepository.save(raffle);
             return repository.findByRaffle(raffle)
                     .stream()
                     .map(RaffleWinnerResponse::of)
                     .collect(Collectors.toList());
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(e.getMessage());
+        } catch (ValidationException e) {
+            throw new ValidationException(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             throw new ValidationException("Erro não definido");
+        }
+    }
+
+    private void validStatusRaffle(StatusRaffle status) {
+        if (status == StatusRaffle.CLOSE) {
+            throw new ValidationException("Rifa está com status Fechado, não é possível sortear novamente");
         }
     }
 
@@ -59,7 +71,7 @@ public class RaffleWinnerService {
             var bValid = true;
             Optional<RaffleItem> raffleItemWinner = Optional.empty();
             while (bValid) {
-                int winner = generator.nextInt(raffleAward.size()) + 1;
+                int winner = generator.nextInt(raffle.getTickets()) + 1;
                 raffleItemWinner = raffleItemRepository.findByRaffleAndTicket(raffle, winner);
                 if ((raffleItemWinner.isPresent()) || (raffle.getType() == TypeRaffle.ALL)) {
                     bValid = false;
