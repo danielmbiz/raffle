@@ -89,7 +89,7 @@ API que simula o cadastro de sorteio de rifas.
 {
   "id": 1,
   "name": "Daniel",
-  "cpf": "05386026941",
+  "cpf": "99999999999",
   "email": "daniel@daniel.com",
   "cel": "99999",
   "postCode": "88840-000",
@@ -519,7 +519,7 @@ Status: 204 - No content
   "client": {
     "id": 1,
     "name": "Daniel",
-    "cpf": "05386026941",
+    "cpf": "99999999999",
     "email": "daniel@daniel.com",
     "cel": "99999",
     "postCode": "88840-000",
@@ -584,7 +584,7 @@ Status: 204 - No content
     "client": {
       "id": 1,
       "name": "Daniel",
-      "cpf": "05386026941",
+      "cpf": "99999999999",
       "email": "daniel@daniel.com",
       "cel": "99999",
       "postCode": "88840-000",
@@ -608,7 +608,7 @@ Status: 204 - No content
     "client": {
       "id": 1,
       "name": "Daniel",
-      "cpf": "05386026941",
+      "cpf": "99999999999",
       "email": "daniel@daniel.com",
       "cel": "99999",
       "postCode": "88840-000",
@@ -714,7 +714,7 @@ Status: 204 - No content
     "client": {
       "id": 1,
       "name": "Daniel",
-      "cpf": "05386026941",
+      "cpf": "99999999999",
       "email": "daniel@daniel.com",
       "cel": "99999",
       "postCode": "88840-000",
@@ -738,7 +738,7 @@ Status: 204 - No content
     "client": {
       "id": 1,
       "name": "Daniel",
-      "cpf": "05386026941",
+      "cpf": "99999999999",
       "email": "daniel@daniel.com",
       "cel": "99999",
       "postCode": "88840-000",
@@ -834,7 +834,7 @@ Status: 204 - No content
     "client": {
       "id": 1,
       "name": "Daniel",
-      "cpf": "05386026941",
+      "cpf": "99999999999",
       "email": "daniel@daniel.com",
       "cel": "99999",
       "postCode": "88840-000",
@@ -883,7 +883,7 @@ O sorteio é realizado de acordo com a quantidade de prêmio cadastrados na Rifa
       "client": {
         "id": 1,
         "name": "Daniel",
-        "cpf": "05386026941",
+        "cpf": "99999999999",
         "email": "daniel@daniel.com",
         "cel": "99999",
         "postCode": "88840-000",
@@ -982,7 +982,7 @@ O sorteio é realizado de acordo com a quantidade de prêmio cadastrados na Rifa
   "client": {
     "id": 1,
     "name": "Daniel",
-    "cpf": "05386026941",
+    "cpf": "99999999999",
     "email": "daniel@daniel.com",
     "cel": "99999",
     "postCode": "88840-000",
