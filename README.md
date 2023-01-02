@@ -175,3 +175,117 @@ API que simula o cadastro de sorteio de rifas.
 ```
 Status: 204 - No content
 ```
+
+# Rifa
+
+### POST - Incluir Nova Rifa
+
+* /raffles
+
+#### Body Request
+```
+{
+    "description" : "Rifa para ajudar pessoas sem teto",
+    "dateAward" : "2023-04-20",
+    "type" : "SOLD",
+    "tickets" : 500,
+    "price" : 10.0,
+    "status" : "OPEN"
+}
+```
+
+#### Body Response
+```
+{
+  "id": 2,
+  "description": "Rifa para ajudar pessoas sem teto",
+  "dateAward": "2023-04-20",
+  "type": "SOLD",
+  "tickets": 500,
+  "price": 10,
+  "status": "OPEN"
+}
+```
+
+### GET - Lista Rifa por ID
+
+* /raffles/{id}
+
+#### Body Response
+```
+{
+  "id": 1,
+  "description": "Rifa de teste para validar",
+  "dateAward": "2023-02-20",
+  "type": "SOLD",
+  "tickets": 50,
+  "price": 10,
+  "status": "CLOSE"
+}
+```
+
+### GET - Listar Todas as Rifas
+
+* /raffles
+
+#### Body Response
+```
+[
+  {
+    "id": 1,
+    "description": "Rifa de teste para validar",
+    "dateAward": "2023-02-20",
+    "type": "SOLD",
+    "tickets": 50,
+    "price": 10,
+    "status": "CLOSE"
+  },
+  {
+    "id": 2,
+    "description": "Rifa para ajudar pessoas sem teto",
+    "dateAward": "2023-04-20",
+    "type": "SOLD",
+    "tickets": 500,
+    "price": 10,
+    "status": "OPEN"
+  }
+]
+```
+
+### PUT - Alterar Rifa
+
+* /raffles/{id}
+
+#### Body Request
+```
+{
+    "description" : "Rifa para ajudar pessoas sem teto",
+    "dateAward" : "2023-06-20",
+    "type" : "SOLD",
+    "tickets" : 500,
+    "price" : 10.0,
+    "status" : "OPEN"
+}
+```
+
+#### Body Response
+```
+{
+  "id": 1,
+  "description": "Rifa para ajudar pessoas sem teto",
+  "dateAward": "2023-06-20",
+  "type": "SOLD",
+  "tickets": 500,
+  "price": 10,
+  "status": "OPEN"
+}
+```
+
+### DELETE - Excluir Rifa 
+
+* /raffle/{id}
+
+#### Body Response
+```
+Status: 204 - No content
+```
