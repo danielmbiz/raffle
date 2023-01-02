@@ -1,11 +1,14 @@
 # API Rifa Online
 
+![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
+
 API que simula o cadastro de sorteio de rifas.
 É utilizado o OpenFeign para buscar informações de endereço do cliente a partir do CEP na API do ViaCep https://viacep.com.br/
 
 # Seções
 
-[Clientes](#Clientes)
+* [Clientes](#Clientes)
+* * [Incluir Novo Clientes](#POST---Incluir-Novo-Cliente)
 
 # Tecnologia utilizada
 * Java 17
