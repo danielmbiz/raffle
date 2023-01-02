@@ -289,3 +289,721 @@ Status: 204 - No content
 ```
 Status: 204 - No content
 ```
+
+# Prêmios da Rifa
+
+### POST - Incluir Novo Prêmio da Rifa
+
+* /raffles/awards
+
+#### Body Request
+```
+{
+    "raffleId" : 3,
+    "description" : "Prêmio de R$500 em dinheiro",
+    "cost" : 250.0
+}
+```
+
+#### Body Response
+```
+{
+  "id": 11,
+  "raffle": {
+    "id": 3,
+    "description": "Rifa para ajudar pessoas sem teto",
+    "dateAward": "2023-04-20",
+    "type": "SOLD",
+    "tickets": 500,
+    "price": 10,
+    "status": "OPEN"
+  },
+  "description": "Prêmio de R$500 em dinheiro",
+  "cost": 250
+}
+```
+
+### GET - Lista Prêmio da Rifa por ID
+
+* /raffles/awards/{id}
+
+#### Body Response
+```
+{
+  "id": 1,
+  "raffle": {
+    "id": 1,
+    "description": "Rifa para ajudar pessoas sem teto",
+    "dateAward": "2023-06-20",
+    "type": "SOLD",
+    "tickets": 500,
+    "price": 10,
+    "status": "OPEN"
+  },
+  "description": "R$500 em dinheiro",
+  "cost": 0
+}
+```
+
+### GET - Listar Prêmios da Rifas pela Rifa
+
+* /raffles/awards/raffle/{idRaffle}
+
+#### Body Response
+```
+[
+  {
+    "id": 2,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "description": "R$800 em dinheiro",
+    "cost": 400
+  }
+]
+```
+
+### GET - Listar Todos os Prêmios da Rifas
+
+* /raffles/awards
+
+#### Body Response
+```
+[
+  {
+    "id": 2,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "description": "R$800 em dinheiro",
+    "cost": 400
+  },
+  {
+    "id": 1,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "description": "R$500 em dinheiro",
+    "cost": 0
+  },
+  {
+    "id": 11,
+    "raffle": {
+      "id": 3,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-04-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "description": "Prêmio de R$500 em dinheiro",
+    "cost": 250
+  }
+]
+```
+
+### PUT - Alterar Prêmio da Rifa
+
+* /raffles/awards/{id}
+
+#### Body Request
+```
+{
+    "raffleId" : 3,
+    "description" : "Prêmio de R$500 em dinheiro",
+    "cost" : 400.0
+}
+```
+
+#### Body Response
+```
+{
+  "id": 11,
+  "raffle": {
+    "id": 3,
+    "description": "Rifa para ajudar pessoas sem teto",
+    "dateAward": "2023-04-20",
+    "type": "SOLD",
+    "tickets": 500,
+    "price": 10,
+    "status": "OPEN"
+  },
+  "description": "Prêmio de R$500 em dinheiro",
+  "cost": 400
+}
+```
+
+### DELETE - Excluir Prêmio da Rifa
+
+* /raffle/awards/{id}
+
+#### Body Response
+```
+Status: 204 - No content
+```
+
+# Itens da Rifa
+
+### POST - Incluir Novo Item da Rifa
+
+* /raffles/items
+
+#### Body Request
+```
+{
+    "raffleId" : 3,
+    "clientId" : 1,
+    "ticket" : 50
+}
+```
+
+#### Body Response
+```
+{
+  "id": 11,
+  "raffle": {
+    "id": 3,
+    "description": "Rifa para ajudar pessoas sem teto",
+    "dateAward": "2023-04-20",
+    "type": "SOLD",
+    "tickets": 500,
+    "price": 10,
+    "status": "OPEN"
+  },
+  "client": {
+    "id": 1,
+    "name": "Daniel",
+    "cpf": "05386026941",
+    "email": "daniel@daniel.com",
+    "cel": "99999",
+    "postCode": "88840-000",
+    "city": "Urussanga",
+    "ibgeCity": "4219002",
+    "state": "SC"
+  },
+  "ticket": 50
+}
+```
+
+### GET - Lista Item da Rifa por ID
+
+* /raffles/items/{id}
+
+#### Body Response
+```
+{
+  "id": 7,
+  "raffle": {
+    "id": 1,
+    "description": "Rifa para ajudar pessoas sem teto",
+    "dateAward": "2023-06-20",
+    "type": "SOLD",
+    "tickets": 500,
+    "price": 10,
+    "status": "OPEN"
+  },
+  "client": {
+    "id": 3,
+    "name": "João",
+    "cpf": "42342342",
+    "email": "joao@daniel.com",
+    "cel": "99999",
+    "postCode": "88840-000",
+    "city": "Urussanga",
+    "ibgeCity": "4219002",
+    "state": "SC"
+  },
+  "ticket": 26
+}
+```
+
+### GET - Listar Itens da Rifas pela Rifa
+
+* /raffles/items/raffle/{idRaffle}
+
+#### Body Response
+```
+[
+  {
+    "id": 1,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "client": {
+      "id": 1,
+      "name": "Daniel",
+      "cpf": "05386026941",
+      "email": "daniel@daniel.com",
+      "cel": "99999",
+      "postCode": "88840-000",
+      "city": "Urussanga",
+      "ibgeCity": "4219002",
+      "state": "SC"
+    },
+    "ticket": 42
+  },
+  {
+    "id": 6,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "client": {
+      "id": 1,
+      "name": "Daniel",
+      "cpf": "05386026941",
+      "email": "daniel@daniel.com",
+      "cel": "99999",
+      "postCode": "88840-000",
+      "city": "Urussanga",
+      "ibgeCity": "4219002",
+      "state": "SC"
+    },
+    "ticket": 48
+  },
+  {
+    "id": 7,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "client": {
+      "id": 3,
+      "name": "João",
+      "cpf": "42342342",
+      "email": "joao@daniel.com",
+      "cel": "99999",
+      "postCode": "88840-000",
+      "city": "Urussanga",
+      "ibgeCity": "4219002",
+      "state": "SC"
+    },
+    "ticket": 26
+  },
+  {
+    "id": 8,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "client": {
+      "id": 3,
+      "name": "João",
+      "cpf": "42342342",
+      "email": "joao@daniel.com",
+      "cel": "99999",
+      "postCode": "88840-000",
+      "city": "Urussanga",
+      "ibgeCity": "4219002",
+      "state": "SC"
+    },
+    "ticket": 14
+  },
+  {
+    "id": 10,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "client": {
+      "id": 3,
+      "name": "João",
+      "cpf": "42342342",
+      "email": "joao@daniel.com",
+      "cel": "99999",
+      "postCode": "88840-000",
+      "city": "Urussanga",
+      "ibgeCity": "4219002",
+      "state": "SC"
+    },
+    "ticket": 50
+  }
+]
+```
+
+### GET - Listar Todos os Itens da Rifas
+
+* /raffles/items
+
+#### Body Response
+```
+[
+  {
+    "id": 1,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "client": {
+      "id": 1,
+      "name": "Daniel",
+      "cpf": "05386026941",
+      "email": "daniel@daniel.com",
+      "cel": "99999",
+      "postCode": "88840-000",
+      "city": "Urussanga",
+      "ibgeCity": "4219002",
+      "state": "SC"
+    },
+    "ticket": 42
+  },
+  {
+    "id": 6,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "client": {
+      "id": 1,
+      "name": "Daniel",
+      "cpf": "05386026941",
+      "email": "daniel@daniel.com",
+      "cel": "99999",
+      "postCode": "88840-000",
+      "city": "Urussanga",
+      "ibgeCity": "4219002",
+      "state": "SC"
+    },
+    "ticket": 48
+  },
+  {
+    "id": 7,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "client": {
+      "id": 3,
+      "name": "João",
+      "cpf": "42342342",
+      "email": "joao@daniel.com",
+      "cel": "99999",
+      "postCode": "88840-000",
+      "city": "Urussanga",
+      "ibgeCity": "4219002",
+      "state": "SC"
+    },
+    "ticket": 26
+  },
+  {
+    "id": 8,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "client": {
+      "id": 3,
+      "name": "João",
+      "cpf": "42342342",
+      "email": "joao@daniel.com",
+      "cel": "99999",
+      "postCode": "88840-000",
+      "city": "Urussanga",
+      "ibgeCity": "4219002",
+      "state": "SC"
+    },
+    "ticket": 14
+  },
+  {
+    "id": 10,
+    "raffle": {
+      "id": 1,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-06-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "client": {
+      "id": 3,
+      "name": "João",
+      "cpf": "42342342",
+      "email": "joao@daniel.com",
+      "cel": "99999",
+      "postCode": "88840-000",
+      "city": "Urussanga",
+      "ibgeCity": "4219002",
+      "state": "SC"
+    },
+    "ticket": 50
+  },
+  {
+    "id": 11,
+    "raffle": {
+      "id": 3,
+      "description": "Rifa para ajudar pessoas sem teto",
+      "dateAward": "2023-04-20",
+      "type": "SOLD",
+      "tickets": 500,
+      "price": 10,
+      "status": "OPEN"
+    },
+    "client": {
+      "id": 1,
+      "name": "Daniel",
+      "cpf": "05386026941",
+      "email": "daniel@daniel.com",
+      "cel": "99999",
+      "postCode": "88840-000",
+      "city": "Urussanga",
+      "ibgeCity": "4219002",
+      "state": "SC"
+    },
+    "ticket": 50
+  }
+]
+```
+
+### DELETE - Excluir Item da Rifa
+
+* /raffle/items/{id}
+
+#### Body Response
+```
+Status: 204 - No content
+```
+
+# Ganhadores da Rifa
+
+### POST - Novo Sorteio da Rifa
+
+O sorteio é realizado de acordo com a quantidade de prêmio cadastrados na Rifa.
+
+* /raffles/winners/{id}
+
+#### Body Request
+```
+[
+  {
+    "id": 7,
+    "raffleItem": {
+      "id": 6,
+      "raffle": {
+        "id": 1,
+        "description": "Rifa para ajudar pessoas sem teto",
+        "dateAward": "2023-06-20",
+        "type": "SOLD",
+        "tickets": 500,
+        "price": 10,
+        "status": "CLOSE"
+      },
+      "client": {
+        "id": 1,
+        "name": "Daniel",
+        "cpf": "05386026941",
+        "email": "daniel@daniel.com",
+        "cel": "99999",
+        "postCode": "88840-000",
+        "city": "Urussanga",
+        "ibgeCity": "4219002",
+        "state": "SC"
+      },
+      "ticket": 48
+    },
+    "raffleAward": {
+      "id": 2,
+      "description": "R$800 em dinheiro",
+      "cost": 400
+    }
+  },
+  {
+    "id": 8,
+    "raffleItem": {
+      "id": 8,
+      "raffle": {
+        "id": 1,
+        "description": "Rifa para ajudar pessoas sem teto",
+        "dateAward": "2023-06-20",
+        "type": "SOLD",
+        "tickets": 500,
+        "price": 10,
+        "status": "CLOSE"
+      },
+      "client": {
+        "id": 3,
+        "name": "João",
+        "cpf": "42342342",
+        "email": "joao@daniel.com",
+        "cel": "99999",
+        "postCode": "88840-000",
+        "city": "Urussanga",
+        "ibgeCity": "4219002",
+        "state": "SC"
+      },
+      "ticket": 14
+    },
+    "raffleAward": {
+      "id": 12,
+      "description": "Prêmio de R$500 em dinheiro",
+      "cost": 250
+    }
+  },
+  {
+    "id": 9,
+    "raffleItem": {
+      "id": 10,
+      "raffle": {
+        "id": 1,
+        "description": "Rifa para ajudar pessoas sem teto",
+        "dateAward": "2023-06-20",
+        "type": "SOLD",
+        "tickets": 500,
+        "price": 10,
+        "status": "CLOSE"
+      },
+      "client": {
+        "id": 3,
+        "name": "João",
+        "cpf": "42342342",
+        "email": "joao@daniel.com",
+        "cel": "99999",
+        "postCode": "88840-000",
+        "city": "Urussanga",
+        "ibgeCity": "4219002",
+        "state": "SC"
+      },
+      "ticket": 50
+    },
+    "raffleAward": {
+      "id": 13,
+      "description": "Prêmio de R$200 em dinheiro",
+      "cost": 250
+    }
+  }
+]
+```
+
+#### Body Response
+```
+{
+  "id": 11,
+  "raffle": {
+    "id": 3,
+    "description": "Rifa para ajudar pessoas sem teto",
+    "dateAward": "2023-04-20",
+    "type": "SOLD",
+    "tickets": 500,
+    "price": 10,
+    "status": "OPEN"
+  },
+  "client": {
+    "id": 1,
+    "name": "Daniel",
+    "cpf": "05386026941",
+    "email": "daniel@daniel.com",
+    "cel": "99999",
+    "postCode": "88840-000",
+    "city": "Urussanga",
+    "ibgeCity": "4219002",
+    "state": "SC"
+  },
+  "ticket": 50
+}
+```
+
+### GET - Listar Ganhadores da Rifas pela Rifa
+
+* /raffles/winners/raffle/{idRaffle}
+
+#### Body Response
+```
+{
+  "id": 7,
+  "raffle": {
+    "id": 1,
+    "description": "Rifa para ajudar pessoas sem teto",
+    "dateAward": "2023-06-20",
+    "type": "SOLD",
+    "tickets": 500,
+    "price": 10,
+    "status": "OPEN"
+  },
+  "client": {
+    "id": 3,
+    "name": "João",
+    "cpf": "42342342",
+    "email": "joao@daniel.com",
+    "cel": "99999",
+    "postCode": "88840-000",
+    "city": "Urussanga",
+    "ibgeCity": "4219002",
+    "state": "SC"
+  },
+  "ticket": 26
+}
+```
+
+### DELETE - Excluir Ganhador da Rifa
+
+* /raffle/items/{id}
+
+#### Body Response
+```
+Status: 204 - No content
+```
