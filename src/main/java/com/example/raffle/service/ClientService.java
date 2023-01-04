@@ -2,10 +2,7 @@ package com.example.raffle.service;
 
 import com.example.raffle.client.ViaCepClient;
 import com.example.raffle.dto.ClientDTO;
-import com.example.raffle.exception.DatabaseException;
-import com.example.raffle.exception.FeignException;
-import com.example.raffle.exception.ResourceNotFoundException;
-import com.example.raffle.exception.ValidationException;
+import com.example.raffle.exception.*;
 import com.example.raffle.model.Client;
 import com.example.raffle.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +10,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.raffle.util.Validation.isValidCpf;
 
 @Service
 public class ClientService {
@@ -27,6 +27,7 @@ public class ClientService {
 
     public ClientDTO save(ClientDTO request) {
         try {
+            valideCpf(request.getCpf());
             var viaCep = viaCepClient.findCepByCep(request.getPostCode());
             validPostCode(viaCep.getCep());
             request.setPostCode(viaCep.getCep());
@@ -39,10 +40,17 @@ public class ClientService {
             throw new DatabaseException("(Err. Client Service: 01) " + e.getMessage());
         } catch (feign.FeignException e) {
             throw new FeignException("CEP não encontrado");
+        } catch (ValidationException e) {
+            throw new ValidationException(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             throw new ValidationException("Erro não definido");
         }
+    }
+
+    private void valideCpf(String cpf) {
+        if (!isValidCpf(cpf))
+            throw new ValidationException("CPF inválido");
     }
 
     private void validPostCode(String cep) {
@@ -68,6 +76,7 @@ public class ClientService {
         try {
             findById(id);
             var client = Client.of(obj);
+            valideCpf(client.getCpf());
             var viaCep = viaCepClient.findCepByCep(client.getPostCode());
             validPostCode(viaCep.getCep());
             client.setPostCode(viaCep.getCep());

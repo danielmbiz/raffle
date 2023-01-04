@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class ClientController {
     private ClientService service;
 
     @PostMapping
-    public ResponseEntity<ClientDTO> save(@RequestBody ClientDTO request) {
+    public ResponseEntity<ClientDTO> save(@RequestBody @Valid ClientDTO request) {
         var employee = service.save(request);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/{id}")
@@ -42,7 +43,7 @@ public class ClientController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody ClientDTO obj) {
+    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody @Valid ClientDTO obj) {
         var clienteDto = service.update(id, obj);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/{id}")

@@ -1,9 +1,6 @@
 package com.example.raffle.service;
 
-import com.example.raffle.dto.ClientDTO;
-import com.example.raffle.dto.RaffleAwardRequest;
 import com.example.raffle.dto.RaffleWinnerResponse;
-import com.example.raffle.exception.DatabaseException;
 import com.example.raffle.exception.ResourceNotFoundException;
 import com.example.raffle.model.*;
 import com.example.raffle.model.enums.StatusRaffle;
@@ -17,28 +14,46 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class RaffleWinnerServiceTest {
     public final static LocalDate DATE = LocalDate.parse("2022-12-28");
-    public final static Raffle RAFFLE = new Raffle(1L, "Rifa", DATE, TypeRaffle.ALL, 50, 10.00, StatusRaffle.OPEN);
-    public final static Client CLIENT = new Client(1L, "Daniel", "05386026941", "daniel@daniel.com", "55 48 99999-9999", "88840000");
-    public final static RaffleItem RAFFLE_ITEM = new RaffleItem(1L, RAFFLE, CLIENT, 50);
-    public final static RaffleAward RAFFLE_AWARD = new RaffleAward(1L, RAFFLE, "Prêmio de R$500", 0.0);
+    public final static Raffle RAFFLE = Raffle.builder()
+            .id(1L)
+            .description("Rifa")
+            .dateAward(DATE)
+            .type(TypeRaffle.SOLD)
+            .tickets(50)
+            .price(10.0)
+            .status(StatusRaffle.OPEN)
+            .build();
+    public final static Client CLIENT = Client.builder()
+            .id(1L)
+            .name("Daniel")
+            .cpf("05386026941")
+            .email("daniel@gmail.com")
+            .cel("55 48 9 9999-9999")
+            .postCode("88840000")
+            .build();
+    public final static RaffleItem RAFFLE_ITEM = new RaffleItem(1L, RAFFLE, CLIENT, 50, null);
+    public final static RaffleAward RAFFLE_AWARD = RaffleAward.builder()
+            .id(1L)
+            .raffle(RAFFLE)
+            .description("Prêmio de R$500")
+            .cost(0.0)
+            .build();
     public final static RaffleWinner RAFFLE_WINNER = new RaffleWinner(1L, RAFFLE_ITEM, RAFFLE_AWARD);
 
     @InjectMocks

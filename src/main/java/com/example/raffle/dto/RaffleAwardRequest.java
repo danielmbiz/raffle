@@ -1,38 +1,17 @@
 package com.example.raffle.dto;
 
-public class RaffleAwardRequest {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+public class RaffleAwardRequest {
     private Long raffleId;
+    @NotBlank(message = "Descrição é obrigatório")
     private String description;
     private Double cost;
-
-    public RaffleAwardRequest(Long raffleId, String description, Double cost) {
-        this.raffleId = raffleId;
-        this.description = description;
-        this.cost = cost;
-    }
-
-    public Long getRaffleId() {
-        return raffleId;
-    }
-
-    public void setRaffleId(Long raffleId) {
-        this.raffleId = raffleId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getCost() {
-        return cost;
-    }
-
-    public void setCost(Double cost) {
-        this.cost = cost;
-    }
 }

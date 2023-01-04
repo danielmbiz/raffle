@@ -58,7 +58,7 @@ API que simula o cadastro de sorteio de rifas.
 ```
 {
     "name": "Francisco",
-    "cpf": "88888888888",
+    "cpf": "653.764.650-20",
     "email":"francisco@gmail.com",
     "cel": "99 9 9999-9999",
     "postCode": "88840000"
@@ -68,16 +68,21 @@ API que simula o cadastro de sorteio de rifas.
 #### Body Response
 ```
 {
-  "id": 10,
-  "name": "Francisco",
-  "cpf": "88888888888",
-  "email": "francisco@gmail.com",
-  "cel": "99 9 9999-9999",
-  "postCode": "88840-000",
-  "city": "Urussanga",
-  "ibgeCity": "4219002",
-  "state": "SC"
+    "id": 1,
+    "name": "Francisco",
+    "cpf": "653.764.650-20",
+    "email": "francisco@gmail.com",
+    "cel": "99 9 9999-9999",
+    "postCode": "88840-000",
+    "city": "Urussanga",
+    "ibgeCity": "4219002",
+    "state": "SC"
 }
+```
+#### Status Response
+```
+Status: 201 - Created
+Status: 400 - Bad Request
 ```
 
 ### GET - Lista Cliente por ID
@@ -87,16 +92,21 @@ API que simula o cadastro de sorteio de rifas.
 #### Body Response
 ```
 {
-  "id": 1,
-  "name": "Daniel",
-  "cpf": "99999999999",
-  "email": "daniel@daniel.com",
-  "cel": "99999",
-  "postCode": "88840-000",
-  "city": "Urussanga",
-  "ibgeCity": "4219002",
-  "state": "SC"
+    "id": 1,
+    "name": "Francisco",
+    "cpf": "653.764.650-20",
+    "email": "francisco@gmail.com",
+    "cel": "99 9 9999-9999",
+    "postCode": "88840-000",
+    "city": "Urussanga",
+    "ibgeCity": "4219002",
+    "state": "SC"
 }
+```
+#### Status Response
+```
+Status: 200 - OK
+Status: 404 - Not Found
 ```
 
 ### GET - Listar Todos os Clientes
@@ -106,62 +116,33 @@ API que simula o cadastro de sorteio de rifas.
 #### Body Response
 ```
 [
-  {
-    "id": 1,
-    "name": "Daniel",
-    "cpf": "99999999999",
-    "email": "daniel@gmail.com",
-    "cel": "99999",
-    "postCode": "88840-000",
-    "city": "Urussanga",
-    "ibgeCity": "4219002",
-    "state": "SC"
-  },
-  {
-    "id": 3,
-    "name": "João",
-    "cpf": "99999999999",
-    "email": "joao@gmail.com",
-    "cel": "99999",
-    "postCode": "88840-000",
-    "city": "Urussanga",
-    "ibgeCity": "4219002",
-    "state": "SC"
-  },
-  {
-    "id": 4,
-    "name": "Pedro",
-    "cpf": "99999999999",
-    "email": "pedro@gmail.com",
-    "cel": "99999",
-    "postCode": "88840-000",
-    "city": "Urussanga",
-    "ibgeCity": "4219002",
-    "state": "SC"
-  },
-  {
-    "id": 5,
-    "name": "Maria",
-    "cpf": "99999999999",
-    "email": "maria@gmail.com",
-    "cel": "99999",
-    "postCode": "88840-000",
-    "city": "Urussanga",
-    "ibgeCity": "4219002",
-    "state": "SC"
-  },
-  {
-    "id": 6,
-    "name": "Daniel",
-    "cpf": "99999999999",
-    "email": "daniel@gmail.com",
-    "cel": "(99) 9 - 9999-9999",
-    "postCode": "88840-000",
-    "city": "Urussanga",
-    "ibgeCity": "4219002",
-    "state": "SC"
-  }
+    {
+        "id": 1,
+        "name": "Francisco",
+        "cpf": "653.764.650-20",
+        "email": "francisco@gmail.com",
+        "cel": "99 9 9999-9999",
+        "postCode": "88840-000",
+        "city": "Urussanga",
+        "ibgeCity": "4219002",
+        "state": "SC"
+    },
+    {
+        "id": 3,
+        "name": "Daniel",
+        "cpf": "80047164077",
+        "email": "daniel@gmail.com",
+        "cel": "99 9 9999-9998",
+        "postCode": "88840-000",
+        "city": "Urussanga",
+        "ibgeCity": "4219002",
+        "state": "SC"
+    }
 ]
+```
+#### Status Response
+```
+Status: 200 - OK
 ```
 
 ### PUT - Alterar Cliente
@@ -172,7 +153,7 @@ API que simula o cadastro de sorteio de rifas.
 ```
 {
     "name": "Francisco",
-    "cpf": "99999999999",
+    "cpf": "37500426089",
     "email":"francisco@gmail.com",
     "cel": "99 9 9999-9999",
     "postCode": "88840000"
@@ -182,23 +163,28 @@ API que simula o cadastro de sorteio de rifas.
 #### Body Response
 ```
 {
-  "id": 10,
-  "name": "Francisco",
-  "cpf": "99999999999",
-  "email": "francisco@gmail.com",
-  "cel": "99 9 9999-9999",
-  "postCode": "88840-000",
-  "city": "Urussanga",
-  "ibgeCity": "4219002",
-  "state": "SC"
+    "id": 1,
+    "name": "Francisco",
+    "cpf": "37500426089",
+    "email": "francisco@gmail.com",
+    "cel": "99 9 9999-9999",
+    "postCode": "88840-000",
+    "city": "Urussanga",
+    "ibgeCity": "4219002",
+    "state": "SC"
 }
+```
+#### Status Response
+```
+Status: 201 - Created
+Status: 400 - Bad Request
 ```
 
 ### DELETE - Excluir Cliente
 
 * /clients/{id}
 
-#### Body Response
+#### Status Response
 ```
 Status: 204 - No content
 ```
@@ -212,10 +198,10 @@ Status: 204 - No content
 #### Body Request
 ```
 {
-    "description" : "Rifa para ajudar pessoas sem teto",
+    "description" : "Rifa solidaria ajudar pessoas necessitadas",
     "dateAward" : "2023-04-20",
     "type" : "SOLD",
-    "tickets" : 500,
+    "tickets" : 50,
     "price" : 10.0,
     "status" : "OPEN"
 }
@@ -224,14 +210,19 @@ Status: 204 - No content
 #### Body Response
 ```
 {
-  "id": 2,
-  "description": "Rifa para ajudar pessoas sem teto",
-  "dateAward": "2023-04-20",
-  "type": "SOLD",
-  "tickets": 500,
-  "price": 10,
-  "status": "OPEN"
+    "id": 1,
+    "description": "Rifa solidaria ajudar pessoas necessitadas",
+    "dateAward": "2023-04-20",
+    "type": "SOLD",
+    "tickets": 50,
+    "price": 10.0,
+    "status": "OPEN"
 }
+```
+#### Status Response
+```
+Status: 201 - Created
+Status: 400 - Bad Request
 ```
 
 ### GET - Lista Rifa por ID
@@ -241,14 +232,19 @@ Status: 204 - No content
 #### Body Response
 ```
 {
-  "id": 1,
-  "description": "Rifa de teste para validar",
-  "dateAward": "2023-02-20",
-  "type": "SOLD",
-  "tickets": 50,
-  "price": 10,
-  "status": "CLOSE"
+    "id": 1,
+    "description": "Rifa solidaria ajudar pessoas necessitadas",
+    "dateAward": "2023-04-20",
+    "type": "SOLD",
+    "tickets": 50,
+    "price": 10.0,
+    "status": "OPEN"
 }
+```
+#### Status Response
+```
+Status: 200 - OK
+Status: 404 - Not Found
 ```
 
 ### GET - Listar Todas as Rifas
@@ -258,25 +254,29 @@ Status: 204 - No content
 #### Body Response
 ```
 [
-  {
-    "id": 1,
-    "description": "Rifa de teste para validar",
-    "dateAward": "2023-02-20",
-    "type": "SOLD",
-    "tickets": 50,
-    "price": 10,
-    "status": "CLOSE"
-  },
-  {
-    "id": 2,
-    "description": "Rifa para ajudar pessoas sem teto",
-    "dateAward": "2023-04-20",
-    "type": "SOLD",
-    "tickets": 500,
-    "price": 10,
-    "status": "OPEN"
-  }
+    {
+        "id": 1,
+        "description": "Rifa solidaria ajudar pessoas necessitadas",
+        "dateAward": "2023-04-20",
+        "type": "SOLD",
+        "tickets": 50,
+        "price": 10.0,
+        "status": "OPEN"
+    },
+    {
+        "id": 2,
+        "description": "Rifa solidaria ajudar pessoas sem teto",
+        "dateAward": "2023-06-01",
+        "type": "SOLD",
+        "tickets": 500,
+        "price": 25.0,
+        "status": "OPEN"
+    }
 ]
+```
+#### Status Response
+```
+Status: 20 - OK
 ```
 
 ### PUT - Alterar Rifa
@@ -286,11 +286,11 @@ Status: 204 - No content
 #### Body Request
 ```
 {
-    "description" : "Rifa para ajudar pessoas sem teto",
-    "dateAward" : "2023-06-20",
+    "description" : "Rifa solidaria ajudar pessoas necessitadas",
+    "dateAward" : "2023-04-20",
     "type" : "SOLD",
-    "tickets" : 500,
-    "price" : 10.0,
+    "tickets" : 50,
+    "price" : 20.0,
     "status" : "OPEN"
 }
 ```
@@ -298,23 +298,29 @@ Status: 204 - No content
 #### Body Response
 ```
 {
-  "id": 1,
-  "description": "Rifa para ajudar pessoas sem teto",
-  "dateAward": "2023-06-20",
-  "type": "SOLD",
-  "tickets": 500,
-  "price": 10,
-  "status": "OPEN"
+    "id": 1,
+    "description": "Rifa solidaria ajudar pessoas necessitadas",
+    "dateAward": "2023-04-20",
+    "type": "SOLD",
+    "tickets": 50,
+    "price": 20.0,
+    "status": "OPEN"
 }
+```
+#### Status Response
+```
+Status: 201 - Created
+Status: 400 - Bad Request
 ```
 
 ### DELETE - Excluir Rifa 
 
 * /raffle/{id}
 
-#### Body Response
+#### Status Response
 ```
 Status: 204 - No content
+Status: 404 - Not Found
 ```
 
 # Prêmios da Rifa
@@ -326,7 +332,7 @@ Status: 204 - No content
 #### Body Request
 ```
 {
-    "raffleId" : 3,
+    "raffleId" : 1,
     "description" : "Prêmio de R$500 em dinheiro",
     "cost" : 250.0
 }
@@ -335,19 +341,24 @@ Status: 204 - No content
 #### Body Response
 ```
 {
-  "id": 11,
-  "raffle": {
-    "id": 3,
-    "description": "Rifa para ajudar pessoas sem teto",
-    "dateAward": "2023-04-20",
-    "type": "SOLD",
-    "tickets": 500,
-    "price": 10,
-    "status": "OPEN"
-  },
-  "description": "Prêmio de R$500 em dinheiro",
-  "cost": 250
+    "id": 1,
+    "raffle": {
+        "id": 1,
+        "description": "Rifa solidaria ajudar pessoas necessitadas",
+        "dateAward": "2023-04-20",
+        "type": "SOLD",
+        "tickets": 50,
+        "price": 20.0,
+        "status": "OPEN"
+    },
+    "description": "Prêmio de R$500 em dinheiro",
+    "cost": 250.0
 }
+```
+#### Status Response
+```
+Status: 201 - Created
+Status: 400 - Bad Request
 ```
 
 ### GET - Lista Prêmio da Rifa por ID
@@ -357,19 +368,24 @@ Status: 204 - No content
 #### Body Response
 ```
 {
-  "id": 1,
-  "raffle": {
     "id": 1,
-    "description": "Rifa para ajudar pessoas sem teto",
-    "dateAward": "2023-06-20",
-    "type": "SOLD",
-    "tickets": 500,
-    "price": 10,
-    "status": "OPEN"
-  },
-  "description": "R$500 em dinheiro",
-  "cost": 0
+    "raffle": {
+        "id": 1,
+        "description": "Rifa solidaria ajudar pessoas necessitadas",
+        "dateAward": "2023-04-20",
+        "type": "SOLD",
+        "tickets": 50,
+        "price": 20.0,
+        "status": "OPEN"
+    },
+    "description": "Prêmio de R$500 em dinheiro",
+    "cost": 250.0
 }
+```
+#### Status Response
+```
+Status: 200 - OK
+Status: 404 - Not Found
 ```
 
 ### GET - Listar Prêmios da Rifas pela Rifa
@@ -379,21 +395,40 @@ Status: 204 - No content
 #### Body Response
 ```
 [
-  {
-    "id": 2,
-    "raffle": {
-      "id": 1,
-      "description": "Rifa para ajudar pessoas sem teto",
-      "dateAward": "2023-06-20",
-      "type": "SOLD",
-      "tickets": 500,
-      "price": 10,
-      "status": "OPEN"
+    {
+        "id": 1,
+        "raffle": {
+            "id": 1,
+            "description": "Rifa solidaria ajudar pessoas necessitadas",
+            "dateAward": "2023-04-20",
+            "type": "SOLD",
+            "tickets": 50,
+            "price": 20.0,
+            "status": "OPEN"
+        },
+        "description": "Prêmio de R$500 em dinheiro",
+        "cost": 250.0
     },
-    "description": "R$800 em dinheiro",
-    "cost": 400
-  }
+    {
+        "id": 2,
+        "raffle": {
+            "id": 1,
+            "description": "Rifa solidaria ajudar pessoas necessitadas",
+            "dateAward": "2023-04-20",
+            "type": "SOLD",
+            "tickets": 50,
+            "price": 20.0,
+            "status": "OPEN"
+        },
+        "description": "Prêmio de R$1.000 em dinheiro",
+        "cost": 500.0
+    }
 ]
+```
+#### Status Response
+```
+Status: 200 - OK
+Status: 400 - Bad Request
 ```
 
 ### GET - Listar Todos os Prêmios da Rifas
@@ -403,49 +438,39 @@ Status: 204 - No content
 #### Body Response
 ```
 [
-  {
-    "id": 2,
-    "raffle": {
-      "id": 1,
-      "description": "Rifa para ajudar pessoas sem teto",
-      "dateAward": "2023-06-20",
-      "type": "SOLD",
-      "tickets": 500,
-      "price": 10,
-      "status": "OPEN"
+    {
+        "id": 1,
+        "raffle": {
+            "id": 1,
+            "description": "Rifa solidaria ajudar pessoas necessitadas",
+            "dateAward": "2023-04-20",
+            "type": "SOLD",
+            "tickets": 50,
+            "price": 20.0,
+            "status": "OPEN"
+        },
+        "description": "Prêmio de R$500 em dinheiro",
+        "cost": 250.0
     },
-    "description": "R$800 em dinheiro",
-    "cost": 400
-  },
-  {
-    "id": 1,
-    "raffle": {
-      "id": 1,
-      "description": "Rifa para ajudar pessoas sem teto",
-      "dateAward": "2023-06-20",
-      "type": "SOLD",
-      "tickets": 500,
-      "price": 10,
-      "status": "OPEN"
-    },
-    "description": "R$500 em dinheiro",
-    "cost": 0
-  },
-  {
-    "id": 11,
-    "raffle": {
-      "id": 3,
-      "description": "Rifa para ajudar pessoas sem teto",
-      "dateAward": "2023-04-20",
-      "type": "SOLD",
-      "tickets": 500,
-      "price": 10,
-      "status": "OPEN"
-    },
-    "description": "Prêmio de R$500 em dinheiro",
-    "cost": 250
-  }
+    {
+        "id": 2,
+        "raffle": {
+            "id": 1,
+            "description": "Rifa solidaria ajudar pessoas necessitadas",
+            "dateAward": "2023-04-20",
+            "type": "SOLD",
+            "tickets": 50,
+            "price": 20.0,
+            "status": "OPEN"
+        },
+        "description": "Prêmio de R$1.000 em dinheiro",
+        "cost": 500.0
+    }
 ]
+```
+#### Status Response
+```
+Status: 200 - OK
 ```
 
 ### PUT - Alterar Prêmio da Rifa

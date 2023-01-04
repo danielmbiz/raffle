@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class RaffleItemController {
     private RaffleItemService service;
 
     @PostMapping
-    public ResponseEntity<RaffleItemResponse> save(@RequestBody RaffleItemRequest request) {
+    public ResponseEntity<RaffleItemResponse> save(@RequestBody @Valid RaffleItemRequest request) {
         var raffleItemResponse = service.save(request);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/{id}")
@@ -42,7 +43,7 @@ public class RaffleItemController {
     }
 
     @GetMapping(value = "/raffle/{id}")
-    public ResponseEntity<List<RaffleItemResponse>> findByRaffle(@PathVariable Long id) {
+    public ResponseEntity<List<RaffleItemResponse>> findByRaffle(@PathVariable @Valid Long id) {
         var raffleItemResponse = service.findByRaffle(id);
         return ResponseEntity.ok().body(raffleItemResponse);
 

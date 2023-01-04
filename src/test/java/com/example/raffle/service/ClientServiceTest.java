@@ -32,8 +32,21 @@ import static org.mockito.Mockito.when;
 public class ClientServiceTest {
 
     public final static ViaCepDTO VIA_CEP_DTO = new ViaCepDTO("88840-000", "", "", "", "Urussanga","SC", "4219002", "", "48", "8373");
-    public final static Client CLIENT = new Client(null, "Daniel", "05386026941", "daniel@daniel.com", "55 48 99999-9999", "88840000");
-    public final static Client INVALID_CLIENT = new Client(null, "", null, "", "", "");
+    public final static Client CLIENT = Client.builder()
+            .name("Daniel")
+            .cpf("05386026941")
+            .email("daniel@gmail.com")
+            .cel("55 48 9 9999-9999")
+            .postCode("88840000")
+            .build();
+
+    public final static Client INVALID_CLIENT = Client.builder()
+            .name("")
+            .cpf("")
+            .email("")
+            .cel("")
+            .postCode("")
+            .build();
 
     @InjectMocks
     private ClientService service;

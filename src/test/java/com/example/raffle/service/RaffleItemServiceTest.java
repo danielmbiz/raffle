@@ -37,12 +37,27 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class RaffleItemServiceTest {
     public final static LocalDate DATE = LocalDate.parse("2022-12-28");
-    public final static Client CLIENT = new Client(1L, "Daniel", "05386026941", "daniel@daniel.com", "55 48 99999-9999", "88840000");
-    public final static Raffle RAFFLE = new Raffle(1L, "Rifa", DATE, TypeRaffle.ALL, 50, 10.00, StatusRaffle.OPEN);
-    public final static RaffleItem RAFFLE_ITEM = new RaffleItem(null, RAFFLE, CLIENT, 50);
+    public final static Client CLIENT = Client.builder()
+            .id(1L)
+            .name("Daniel")
+            .cpf("05386026941")
+            .email("daniel@gmail.com")
+            .cel("55 48 9 9999-9999")
+            .postCode("88840000")
+            .build();
+    public final static Raffle RAFFLE = Raffle.builder()
+            .id(1L)
+            .description("Rifa")
+            .dateAward(DATE)
+            .type(TypeRaffle.SOLD)
+            .tickets(50)
+            .price(10.0)
+            .status(StatusRaffle.OPEN)
+            .build();
+    public final static RaffleItem RAFFLE_ITEM = new RaffleItem(null, RAFFLE, CLIENT, 50, null);
     public final static Client CLIENT_EMPTY = new Client();
     public final static Raffle RAFFLE_EMPTY = new Raffle();
-    public final static RaffleItem INVALID_RAFFLE_ITEM = new RaffleItem(null, RAFFLE_EMPTY, CLIENT_EMPTY, 0);
+    public final static RaffleItem INVALID_RAFFLE_ITEM = new RaffleItem(null, RAFFLE_EMPTY, CLIENT_EMPTY, 0, null);
 
     @InjectMocks
     private RaffleItemService service;
@@ -76,8 +91,8 @@ public class RaffleItemServiceTest {
 
     @Test
     public void createRaffleItem_WithZeroOrNullTicket_ReturnsValidationException() {
-        RaffleItem raffleItemTicketZero = new RaffleItem(null, RAFFLE, CLIENT, 0);
-        RaffleItem raffleItemTicketNull = new RaffleItem(null, RAFFLE, CLIENT, null);
+        RaffleItem raffleItemTicketZero = new RaffleItem(null, RAFFLE, CLIENT, 0, null);
+        RaffleItem raffleItemTicketNull = new RaffleItem(null, RAFFLE, CLIENT, null, null);
 
         var dtoZero = new RaffleItemRequest(
                 raffleItemTicketZero.getRaffle().getId(),

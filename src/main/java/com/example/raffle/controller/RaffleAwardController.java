@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class RaffleAwardController {
     private RaffleAwardService service;
 
     @PostMapping
-    public ResponseEntity<RaffleAwardResponse> save(@RequestBody RaffleAwardRequest request) {
+    public ResponseEntity<RaffleAwardResponse> save(@RequestBody @Valid RaffleAwardRequest request) {
         var raffleAwardResponse = service.save(request);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/{id}")
@@ -51,7 +52,7 @@ public class RaffleAwardController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<RaffleAwardResponse> update(@PathVariable Long id, @RequestBody RaffleAwardRequest obj) {
+    public ResponseEntity<RaffleAwardResponse> update(@PathVariable Long id, @RequestBody @Valid RaffleAwardRequest obj) {
         var raffleAwardResponse = service.update(id, obj);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/{id}")

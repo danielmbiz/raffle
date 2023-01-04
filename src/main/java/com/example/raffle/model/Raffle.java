@@ -4,14 +4,21 @@ import com.example.raffle.dto.RaffleDTO;
 import com.example.raffle.model.enums.StatusRaffle;
 import com.example.raffle.model.enums.TypeRaffle;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
 @Entity
 @Table
 public class Raffle {
@@ -25,8 +32,10 @@ public class Raffle {
     private LocalDate dateAward;
     @NotNull(message = "Tipo é obrigatório")
     private TypeRaffle type;
+    @Min(value = 10, message = "É preciso ter no mínimo 10 números")
     private Integer tickets;
     private Double price;
+    @NotNull(message = "Status é obrigatório")
     private StatusRaffle status;
     @JsonIgnore
     @OneToMany(mappedBy = "raffle")
@@ -34,91 +43,6 @@ public class Raffle {
     @JsonIgnore
     @OneToMany(mappedBy = "raffle")
     private List<RaffleItem> raffleItems;
-
-    public Raffle() {
-    }
-
-    public Raffle(Long id, String description, LocalDate dateAward, TypeRaffle type, Integer tickets, Double price, StatusRaffle status) {
-        this.id = id;
-        this.description = description;
-        this.dateAward = dateAward;
-        this.type = type;
-        this.tickets = tickets;
-        this.price = price;
-        this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDate getDateAward() {
-        return dateAward;
-    }
-
-    public void setDateAward(LocalDate dateAward) {
-        this.dateAward = dateAward;
-    }
-
-    public TypeRaffle getType() {
-        return type;
-    }
-
-    public void setType(TypeRaffle type) {
-        this.type = type;
-    }
-
-    public Integer getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(Integer tickets) {
-        this.tickets = tickets;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public List<RaffleAward> getRaffleAwards() {
-        return raffleAwards;
-    }
-
-    public void setRaffleAwards(List<RaffleAward> raffleAwards) {
-        this.raffleAwards = raffleAwards;
-    }
-
-    public List<RaffleItem> getRaffleItems() {
-        return raffleItems;
-    }
-
-    public void setRaffleItems(List<RaffleItem> raffleItems) {
-        this.raffleItems = raffleItems;
-    }
-
-    public StatusRaffle getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusRaffle status) {
-        this.status = status;
-    }
 
     public static Raffle of(RaffleDTO dto) {
         var raffle = new Raffle();

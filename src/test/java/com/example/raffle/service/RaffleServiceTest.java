@@ -33,8 +33,22 @@ import static org.mockito.Mockito.when;
 public class RaffleServiceTest {
 
     public final static LocalDate DATE = LocalDate.parse("2022-12-28");
-    public final static Raffle RAFFLE = new Raffle(null, "Rifa", DATE, TypeRaffle.ALL, 50, 10.00, StatusRaffle.OPEN);
-    public final static Raffle INVALID_RAFFLE = new Raffle(null, "", null, null, 0, 0.0, null);
+    public final static Raffle RAFFLE = Raffle.builder()
+            .description("Rifa")
+            .dateAward(DATE)
+            .type(TypeRaffle.SOLD)
+            .tickets(50)
+            .price(10.0)
+            .status(StatusRaffle.OPEN)
+            .build();
+    public final static Raffle INVALID_RAFFLE = Raffle.builder()
+            .description("")
+            .dateAward(null)
+            .type(null)
+            .tickets(0)
+            .price(0.0)
+            .status(null)
+            .build();
 
     @InjectMocks
     private RaffleService service;

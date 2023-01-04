@@ -35,8 +35,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class RaffleAwardServiceTest {
     public final static LocalDate DATE = LocalDate.parse("2022-12-28");
-    public final static Raffle RAFFLE = new Raffle(1L, "Rifa", DATE, TypeRaffle.ALL, 50, 10.00, StatusRaffle.OPEN);
-    public final static RaffleAward RAFFLE_AWARD = new RaffleAward(1L, RAFFLE, "Prêmio de R$500", 0.0);
+    public final static Raffle RAFFLE = new Raffle(1L, "Rifa", DATE, TypeRaffle.ALL, 50, 10.00, StatusRaffle.OPEN, null, null);
+    public final static RaffleAward RAFFLE_AWARD = new RaffleAward(1L, RAFFLE, "Prêmio de R$500", 0.0, null);
 
     @InjectMocks
     private RaffleAwardService service;
@@ -80,7 +80,7 @@ public class RaffleAwardServiceTest {
 
     @Test
     public void createRaffleAward_IsNull_ValidationException() {
-        var invalidRaffleAward = new RaffleAward(null, RAFFLE, null, 0.0);
+        var invalidRaffleAward = new RaffleAward(null, RAFFLE, null, 0.0, null);
         var dto = new RaffleAwardRequest(
                 invalidRaffleAward.getRaffle().getId(),
                 invalidRaffleAward.getDescription(),

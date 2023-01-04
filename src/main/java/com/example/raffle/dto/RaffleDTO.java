@@ -3,78 +3,32 @@ package com.example.raffle.dto;
 import com.example.raffle.model.Raffle;
 import com.example.raffle.model.enums.StatusRaffle;
 import com.example.raffle.model.enums.TypeRaffle;
+import lombok.*;
 import org.springframework.beans.BeanUtils;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class RaffleDTO {
 
     private Long id;
+    @NotBlank(message = "Descrição é obrigatório")
+    @NotNull
     private String description;
+    @NotNull(message = "Data do sorteio é obrigatório")
     private LocalDate dateAward;
+    @NotNull(message = "Tipo é obrigatório")
     private TypeRaffle type;
+    @Min(value = 10, message = "É preciso ter no mínimo 10 números")
     private Integer tickets;
     private Double price;
+    @NotNull(message = "Status é obrigatório")
     private StatusRaffle status;
-
-    public RaffleDTO() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDate getDateAward() {
-        return dateAward;
-    }
-
-    public void setDateAward(LocalDate dateAward) {
-        this.dateAward = dateAward;
-    }
-
-    public TypeRaffle getType() {
-        return type;
-    }
-
-    public void setType(TypeRaffle type) {
-        this.type = type;
-    }
-
-    public Integer getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(Integer tickets) {
-        this.tickets = tickets;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public StatusRaffle getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusRaffle status) {
-        this.status = status;
-    }
 
     public static RaffleDTO of(Raffle raffle) {
         var dto = new RaffleDTO();
