@@ -51,12 +51,12 @@ public class RaffleWinnerService {
                     .map(RaffleWinnerResponse::of)
                     .collect(Collectors.toList());
         } catch (ResourceNotFoundException e) {
-            throw new ResourceNotFoundException(e.getMessage());
+            throw new ResourceNotFoundException("(Err. RaffleWinner Service: 01) " + e.getMessage());
         } catch (ValidationException e) {
-            throw new ValidationException(e.getMessage());
+            throw new ValidationException("(Err. RaffleWinner Service: 02) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ValidationException("Erro não definido");
+            throw new ValidationException("(Err. RaffleWinner Service: 03) Erro não definido");
         }
     }
 
@@ -81,15 +81,13 @@ public class RaffleWinnerService {
                     }
                 }
             }
-            if (raffleItemWinner.isPresent()) {
-                repository.save(RaffleWinner.of(raffleAward.get(i - 1), raffleItemWinner.get()));
-            }
+            repository.save(RaffleWinner.of(raffleAward.get(i - 1), raffleItemWinner.get()));
         }
     }
 
     public List<RaffleWinnerResponse> findByRaffle(Long id) {
         var raffle = raffleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
-                "Rifa não encontrada Id: " + id + " (Err. Raffle Award Service: 07)"));
+                "Rifa não encontrada Id: " + id));
         return repository.findByRaffle(raffle)
                 .stream()
                 .map(RaffleWinnerResponse::of)
@@ -100,18 +98,18 @@ public class RaffleWinnerService {
     public void delete(Long raffleId) {
         try {
             var raffle = raffleRepository.findById(raffleId).orElseThrow(() -> new ResourceNotFoundException(
-                    "Rifa não encontrada Id: " + raffleId + " (Err. Raffle Award Service: 07)"));
+                    "Rifa não encontrada Id: " + raffleId));
             var raffleWinnerIds = repository.findByRaffleWinnerId(raffle);
             repository.deleteByIdIn(raffleWinnerIds);
             raffle.setStatus(StatusRaffle.OPEN);
             raffleRepository.save(raffle);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(
-                    "Prêmio da Rifa não encontrado ID: " + raffleId + " (Err. Raffle Service: 05)");
+                    "Prêmio da Rifa não encontrado ID: " + raffleId);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(e.getMessage());
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("(Err. Raffle Award Service: 06) " + e.getMessage());
+            throw new DatabaseException("(Err. RaffleWinner Service: 04) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }

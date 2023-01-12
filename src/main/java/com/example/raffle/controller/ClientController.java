@@ -44,12 +44,12 @@ public class ClientController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody @Valid ClientDTO obj) {
-        var clienteDto = service.update(id, obj);
+        var clientDto = service.update(id, obj);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/{id}")
-                .buildAndExpand(clienteDto.getId())
+                .buildAndExpand(clientDto.getId())
                 .toUri();
-        return ResponseEntity.created(uri).body(clienteDto);
+        return ResponseEntity.created(uri).body(clientDto);
     }
 
     @DeleteMapping(value = "/{id}")

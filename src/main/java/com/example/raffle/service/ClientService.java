@@ -2,7 +2,10 @@ package com.example.raffle.service;
 
 import com.example.raffle.client.ViaCepClient;
 import com.example.raffle.dto.ClientDTO;
-import com.example.raffle.exception.*;
+import com.example.raffle.exception.DatabaseException;
+import com.example.raffle.exception.FeignException;
+import com.example.raffle.exception.ResourceNotFoundException;
+import com.example.raffle.exception.ValidationException;
 import com.example.raffle.model.Client;
 import com.example.raffle.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +13,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +29,7 @@ public class ClientService {
 
     public ClientDTO save(ClientDTO request) {
         try {
-            valideCpf(request.getCpf());
+            validCpf(request.getCpf());
             var viaCep = viaCepClient.findCepByCep(request.getPostCode());
             validPostCode(viaCep.getCep());
             request.setPostCode(viaCep.getCep());
@@ -39,16 +41,16 @@ public class ClientService {
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("(Err. Client Service: 01) " + e.getMessage());
         } catch (feign.FeignException e) {
-            throw new FeignException("CEP não encontrado");
+            throw new FeignException("(Err. Client Service: 02) " + e.getMessage());
         } catch (ValidationException e) {
-            throw new ValidationException(e.getMessage());
+            throw new ValidationException("(Err. Client Service: 03) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ValidationException("Erro não definido");
+            throw new ValidationException("(Err. Client Service: 04) Erro não definido");
         }
     }
 
-    private void valideCpf(String cpf) {
+    private void validCpf(String cpf) {
         if (!isValidCpf(cpf))
             throw new ValidationException("CPF inválido");
     }
@@ -61,7 +63,7 @@ public class ClientService {
 
     public ClientDTO findById(Long id) {
         var client = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
-                "Cliente não encontrado Id: " + id + " (Err. Client Service: 02)"));
+                "Cliente não encontrado Id: " + id));
         return ClientDTO.of(client);
     }
 
@@ -76,7 +78,7 @@ public class ClientService {
         try {
             findById(id);
             var client = Client.of(obj);
-            valideCpf(client.getCpf());
+            validCpf(client.getCpf());
             var viaCep = viaCepClient.findCepByCep(client.getPostCode());
             validPostCode(viaCep.getCep());
             client.setPostCode(viaCep.getCep());
@@ -85,11 +87,15 @@ public class ClientService {
             client.setIbgeCity(viaCep.getIbge());
             client.setId(id);
             return ClientDTO.of(repository.save(client));
-        } catch (RuntimeException e) {
-            throw new ValidationException("(Err. Client Service: 03) " + e.getMessage());
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("(Err. Client Service: 05) " + e.getMessage());
+        } catch (feign.FeignException e) {
+            throw new FeignException("(Err. Client Service: 06) " + e.getMessage());
+        } catch (ValidationException e) {
+            throw new ValidationException("(Err. Client Service: 07) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new DatabaseException("(Err. Client Service: 04) " + e.getMessage());
+            throw new DatabaseException("(Err. Client Service: 08) " + e.getMessage());
         }
     }
 

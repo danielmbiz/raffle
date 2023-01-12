@@ -26,28 +26,21 @@ public class RaffleAwardService {
 
     public RaffleAwardResponse save(RaffleAwardRequest request) {
         try {
-            validEmpty(request.getRaffleId(), "Rifa não informada");
             var raffle = raffleRepository.findById(request.getRaffleId())
-                    .orElseThrow(() -> new ValidationException("Rifa não encontrado Id: " + request.getRaffleId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Rifa não encontrado Id: " + request.getRaffleId()));
             var raffleAward = repository.save(RaffleAward.of(request, raffle));
             return RaffleAwardResponse.of(raffleAward);
-        } catch (ValidationException e) {
-            throw new ValidationException(e.getMessage());
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("(Err. RaffleAward Service: 01) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ValidationException("Erro não definido");
-        }
-    }
-
-    private void validEmpty(Long valid, String message) {
-        if ((valid == null) || (valid == 0)) {
-            throw new ValidationException(message);
+            throw new ValidationException("(Err. RaffleAward Service: 02) Erro não definido");
         }
     }
 
     public RaffleAwardResponse findById(Long id) {
         var raffleAward = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
-                "Prêmio da Rifa não encontrado Id: " + id + " (Err. Raffle Award Service: 02)"));
+                "Prêmio da Rifa não encontrado Id: " + id));
         return RaffleAwardResponse.of(raffleAward);
     }
 
@@ -73,11 +66,9 @@ public class RaffleAwardService {
             var raffleAward = RaffleAward.of(obj, raffleAwardResponse.getRaffle());
             raffleAward.setId(id);
             return RaffleAwardResponse.of(repository.save(raffleAward));
-        } catch (RuntimeException e) {
-            throw new ValidationException("(Err. Raffle Award Service: 03) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ValidationException("Erro não definido");
+            throw new ValidationException("(Err. RaffleAward Service: 03) Erro não definido");
         }
     }
 
@@ -86,9 +77,9 @@ public class RaffleAwardService {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(
-                    "Prêmio da Rifa não encontrado ID: " + id + " (Err. Raffle Service: 05)");
+                    "Prêmio da Rifa não encontrado ID: " + id);
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("(Err. Raffle Award Service: 06) " + e.getMessage());
+            throw new DatabaseException("(Err. RaffleAward Service: 04) " +  e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }

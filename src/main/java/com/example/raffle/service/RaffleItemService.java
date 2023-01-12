@@ -15,7 +15,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,12 +31,8 @@ public class RaffleItemService {
     public RaffleItemResponse save(RaffleItemRequest request) {
         try {
             validTicketNotZero(request.getTicket());
-            validEmpty(request.getRaffleId(), "Rifa não informada");
-
             var raffle = raffleRepository.findById(request.getRaffleId())
                     .orElseThrow(() -> new ResourceNotFoundException("Rifa não encontrada Id: " + request.getRaffleId()));
-            validEmpty(request.getClientId(), "Cliente não informado");
-
             var client = clientRepository.findById(request.getClientId())
                     .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado Id: " + request.getRaffleId()));
             validTicketExists(raffle.getTickets(), request.getTicket());
@@ -45,12 +40,12 @@ public class RaffleItemService {
             var raffleItem = repository.save(RaffleItem.of(request, raffle, client));
             return RaffleItemResponse.of(raffleItem);
         } catch (ResourceNotFoundException e) {
-            throw new ResourceNotFoundException(e.getMessage());
+            throw new ResourceNotFoundException("(Err. RaffleItem Service: 01) " + e.getMessage());
         } catch (ValidationException e) {
-            throw new ValidationException(e.getMessage());
+            throw new ValidationException("(Err. RaffleItem Service: 02) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ValidationException("Erro não definido");
+            throw new ValidationException("(Err. RaffleItem Service: 03) Erro não definido");
         }
     }
 
@@ -73,15 +68,9 @@ public class RaffleItemService {
         }
     }
 
-    private void validEmpty(Long valid, String message) {
-        if ((valid == null) || (valid == 0)) {
-            throw new ValidationException(message);
-        }
-    }
-
     public RaffleItemResponse findById(Long id) {
         var raffleItem = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
-                "Rafflee Item não encontrado Id: " + id + " (Err. Raffle Item Service: 02)"));
+                "Rafflee Item não encontrado Id: " + id));
         return RaffleItemResponse.of(raffleItem);
     }
 
@@ -94,7 +83,7 @@ public class RaffleItemService {
 
     public List<RaffleItemResponse> findByRaffle(Long id) {
         var raffle = raffleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
-                "Rifa não encontrada Id: " + id + " (Err. Raffle Item Service: 07)"));
+                "Rifa não encontrada Id: " + id));
         return repository.findByRaffle(raffle)
                 .stream()
                 .map(RaffleItemResponse::of)
@@ -106,9 +95,9 @@ public class RaffleItemService {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(
-                    "Rafflee não encontrado ID: " + id + " (Err. Raffle Service: 05)");
+                    "Rafflee não encontrado ID: " + id);
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("(Err. Raffle Service: 06) " + e.getMessage());
+            throw new DatabaseException("(Err. RaffleItem Service: 04) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }

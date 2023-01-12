@@ -24,17 +24,15 @@ public class RaffleService {
         try {
             var raffle = repository.save(Raffle.of(request));
             return RaffleDTO.of(raffle);
-        } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("(Err. Raffle Service: 01) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new DatabaseException("Erro não definido");
+            throw new DatabaseException("(Err. Raffle Service: 01) Erro não definido");
         }
     }
 
     public RaffleDTO findById(Long id) {
         var raffle = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
-                "Rafflee não encontrado Id: " + id + " (Err. Raffle Service: 02)"));
+                "Rafflee não encontrado Id: " + id));
         return RaffleDTO.of(raffle);
     }
 
@@ -51,11 +49,9 @@ public class RaffleService {
             var raffle = Raffle.of(obj);
             raffle.setId(id);
             return RaffleDTO.of(repository.save(raffle));
-        } catch (RuntimeException e) {
-            throw new ValidationException("(Err. Raffle Service: 03) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new DatabaseException("(Err. Raffle Service: 04) " + e.getMessage());
+            throw new DatabaseException("(Err. Raffle Service: 02) Erro não definido");
         }
     }
 
@@ -64,9 +60,9 @@ public class RaffleService {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(
-                    "Rafflee não encontrado ID: " + id + " (Err. Raffle Service: 05)");
+                    "Rafflee não encontrado ID: " + id + " (Err. Raffle Service: 03)");
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("(Err. Raffle Service: 06) " + e.getMessage());
+            throw new DatabaseException("(Err. Raffle Service: 04) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }

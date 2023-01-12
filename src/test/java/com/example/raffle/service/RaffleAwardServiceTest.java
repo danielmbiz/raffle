@@ -67,7 +67,7 @@ public class RaffleAwardServiceTest {
     }
 
     @Test
-    public void createRaffleAward_WithNullRaffle_ReturnsValidationException() {
+    public void createRaffleAward_WithNullRaffle_ReturnsResourceNotFoundException() {
         when(raffleRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
 
         var dto = new RaffleAwardRequest(
@@ -75,18 +75,18 @@ public class RaffleAwardServiceTest {
                 RAFFLE_AWARD.getDescription(),
                 RAFFLE_AWARD.getCost());
 
-        assertThatThrownBy(() -> service.save(dto)).isInstanceOf(ValidationException.class);
+        assertThatThrownBy(() -> service.save(dto)).isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
-    public void createRaffleAward_IsNull_ValidationException() {
+    public void createRaffleAward_IsNull_ReturnsResourceNotFoundException() {
         var invalidRaffleAward = new RaffleAward(null, RAFFLE, null, 0.0, null);
         var dto = new RaffleAwardRequest(
                 invalidRaffleAward.getRaffle().getId(),
                 invalidRaffleAward.getDescription(),
                 invalidRaffleAward.getCost());
 
-        assertThatThrownBy(() -> service.save(dto)).isInstanceOf(ValidationException.class);
+        assertThatThrownBy(() -> service.save(dto)).isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test

@@ -109,7 +109,7 @@ public class RaffleItemServiceTest {
         assertThatThrownBy(() -> service.save(dtoNull)).isInstanceOf(ValidationException.class);
     }
     @Test
-    public void createRaffleItem_WithNullRaffle_ReturnsValidationException() {
+    public void createRaffleItem_WithNullRaffle_ReturnsResourceNotFoundException() {
         when(raffleRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
 
         var dto = new RaffleItemRequest(
@@ -117,11 +117,11 @@ public class RaffleItemServiceTest {
                 RAFFLE_ITEM.getClient().getId(),
                 RAFFLE_ITEM.getTicket());
 
-        assertThatThrownBy(() -> service.save(dto)).isInstanceOf(ValidationException.class);
+        assertThatThrownBy(() -> service.save(dto)).isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
-    public void createRaffleItem_WithNullClient_ReturnsValidationException() {
+    public void createRaffleItem_WithNullClient_ReturnsResourceNotFoundException() {
         when(raffleRepository.findById(1L)).thenReturn(Optional.ofNullable(RAFFLE));
         when(clientRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
 
@@ -130,11 +130,11 @@ public class RaffleItemServiceTest {
                 RAFFLE_ITEM.getClient().getId(),
                 RAFFLE_ITEM.getTicket());
 
-        assertThatThrownBy(() -> service.save(dto)).isInstanceOf(ValidationException.class);
+        assertThatThrownBy(() -> service.save(dto)).isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
-    public void createRaffleItem_IsNull_ValidationException() {
+    public void createRaffleItem_IsNull_ReturnsValidationException() {
         var dto = new RaffleItemRequest(
                 INVALID_RAFFLE_ITEM.getRaffle().getId(),
                 INVALID_RAFFLE_ITEM.getClient().getId(),

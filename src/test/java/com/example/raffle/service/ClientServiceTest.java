@@ -6,6 +6,7 @@ import com.example.raffle.dto.ViaCepDTO;
 import com.example.raffle.exception.DatabaseException;
 import com.example.raffle.exception.FeignException;
 import com.example.raffle.exception.ResourceNotFoundException;
+import com.example.raffle.exception.ValidationException;
 import com.example.raffle.model.Client;
 import com.example.raffle.repository.ClientRepository;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ public class ClientServiceTest {
     public final static ViaCepDTO VIA_CEP_DTO = new ViaCepDTO("88840-000", "", "", "", "Urussanga","SC", "4219002", "", "48", "8373");
     public final static Client CLIENT = Client.builder()
             .name("Daniel")
-            .cpf("05386026941")
+            .cpf("03332916033")
             .email("daniel@gmail.com")
             .cel("55 48 9 9999-9999")
             .postCode("88840000")
@@ -42,7 +43,7 @@ public class ClientServiceTest {
 
     public final static Client INVALID_CLIENT = Client.builder()
             .name("")
-            .cpf("")
+            .cpf("03332916033")
             .email("")
             .cel("")
             .postCode("")
@@ -71,12 +72,18 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void createClient_DataIntegraty_RuntimeException() {
-        when(viaCepClient.findCepByCep("")).thenReturn(VIA_CEP_DTO);
-        when(repository.save(any())).thenThrow(RuntimeException.class);
-        var dto = ClientDTO.of(INVALID_CLIENT);
+    public void createClient_InvalidCpf_ValidationException() {
+        Client clientInvalidCpf = Client.builder()
+                .name("")
+                .cpf("03332916038")
+                .email("")
+                .cel("")
+                .postCode("")
+                .build();
 
-        assertThatThrownBy(() -> service.save(dto)).isInstanceOf(RuntimeException.class);
+        var dto = ClientDTO.of(clientInvalidCpf);
+
+        assertThatThrownBy(() -> service.save(dto)).isInstanceOf(ValidationException.class);
     }
 
     @Test
@@ -178,6 +185,41 @@ public class ClientServiceTest {
         var dto = ClientDTO.of(CLIENT);
 
         assertThatThrownBy(() -> service.update(1L, dto)).isInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    public void updateClient_DataIntegraty_FeignException() {
+        when(repository.findById(1L)).thenReturn(Optional.of(CLIENT));
+        when(viaCepClient.findCepByCep("88840000")).thenThrow(feign.FeignException.class);
+        var dto = ClientDTO.of(CLIENT);
+
+        assertThatThrownBy(() -> service.update(1L, dto)).isInstanceOf(FeignException.class);
+    }
+
+    @Test
+    public void updateClient_InvalidCpf_ValidationException() {
+        Client clientInvalidCpf = Client.builder()
+                .name("")
+                .cpf("03332916038")
+                .email("")
+                .cel("")
+                .postCode("")
+                .build();
+
+        when(repository.findById(1L)).thenReturn(Optional.of(clientInvalidCpf));
+        var dto = ClientDTO.of(clientInvalidCpf);
+
+        assertThatThrownBy(() -> service.update(1L, dto)).isInstanceOf(ValidationException.class);
+    }
+
+    @Test
+    public void updateClient_EmailDataIntegraty_DataIntegrityViolationExceptionReturnDatabaseException() {
+        when(viaCepClient.findCepByCep("88840000")).thenReturn(VIA_CEP_DTO);
+        when(repository.findById(anyLong())).thenReturn(Optional.of(CLIENT));
+        when(repository.save(CLIENT)).thenReturn(CLIENT);
+
+        var dto = ClientDTO.of(CLIENT);
+        assertThatThrownBy(() -> service.update(anyLong(), dto)).isInstanceOf(DatabaseException.class);
     }
 
     @Test
