@@ -2,10 +2,7 @@ package com.example.raffle.controller;
 
 import com.example.raffle.dto.RaffleAwardRequest;
 import com.example.raffle.dto.RaffleAwardResponse;
-import com.example.raffle.dto.RaffleDTO;
-import com.example.raffle.model.Raffle;
 import com.example.raffle.service.RaffleAwardService;
-import com.example.raffle.service.RaffleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

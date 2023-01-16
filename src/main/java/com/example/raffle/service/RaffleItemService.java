@@ -50,7 +50,7 @@ public class RaffleItemService {
     }
 
     private void validTicketExists(Integer tickets, Integer ticket) {
-        if ((tickets < ticket) || (ticket == 0)) {
+        if (tickets < ticket) {
             throw new ResourceNotFoundException("Número da rifa não existe, número: " + ticket);
         }
     }
@@ -63,7 +63,7 @@ public class RaffleItemService {
     }
 
     private void validTicketNotZero(Integer ticket) {
-        if ((ticket == null) || (ticket == 0)) {
+        if ((ticket == null) || (ticket <= 0)) {
             throw new ValidationException("Número não pode ser ZERO");
         }
     }

@@ -1,8 +1,6 @@
 package com.example.raffle.util;
 
 import java.util.InputMismatchException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Validation {
     public static boolean isValidCpf(String cpf) {

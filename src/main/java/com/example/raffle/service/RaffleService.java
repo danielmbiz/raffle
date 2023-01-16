@@ -3,7 +3,6 @@ package com.example.raffle.service;
 import com.example.raffle.dto.RaffleDTO;
 import com.example.raffle.exception.DatabaseException;
 import com.example.raffle.exception.ResourceNotFoundException;
-import com.example.raffle.exception.ValidationException;
 import com.example.raffle.model.Raffle;
 import com.example.raffle.repository.RaffleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class RaffleService {
 
     public RaffleDTO findById(Long id) {
         var raffle = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
-                "Rafflee não encontrado Id: " + id));
+                "Rifa não encontrada Id: " + id));
         return RaffleDTO.of(raffle);
     }
 
@@ -60,9 +59,9 @@ public class RaffleService {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(
-                    "Rafflee não encontrado ID: " + id + " (Err. Raffle Service: 03)");
+                    "Rifa não encontrada ID: " + id);
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("(Err. Raffle Service: 04) " + e.getMessage());
+            throw new DatabaseException("(Err. Raffle Service: 03) " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
