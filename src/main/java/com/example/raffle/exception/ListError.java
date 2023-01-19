@@ -1,19 +1,17 @@
 package com.example.raffle.exception;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-import java.time.Instant;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
+@Builder
 public class ListError {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-    private Instant timestamp;
-    private Integer status;
-    private String error;
+    private String status;
+    private Integer code;
     private final List<ErrorObject> messages;
-    private String patch;
+    private List<String> result;
 }

@@ -1,5 +1,29 @@
 package com.example.raffle.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import com.example.raffle.client.ViaCepClient;
 import com.example.raffle.dto.ClientDTO;
 import com.example.raffle.dto.ViaCepDTO;
@@ -9,25 +33,6 @@ import com.example.raffle.exception.ResourceNotFoundException;
 import com.example.raffle.exception.ValidationException;
 import com.example.raffle.model.Client;
 import com.example.raffle.repository.ClientRepository;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ClientServiceTest {
@@ -148,16 +153,16 @@ public class ClientServiceTest {
         List<Client> list = new ArrayList<>();
         list.add(CLIENT);
         var dto = ClientDTO.of(CLIENT);
-        when(repository.findAll()).thenReturn(list);
+        when(repository.findAll(PageRequest.of(0,2)).getContent()).thenReturn(list);
 
-        List<ClientDTO> sut = service.findAll();
+        Page<ClientDTO> sut = service.findAll("daniel","urussanga",PageRequest.of(0,2));
 
-        assertThat(sut).asList().isNotEmpty();
-        assertThat(sut).asList().hasSize(1);
-        assertEquals(ClientDTO.class, sut.get(0).getClass());
-        assertEquals(dto.getId(), sut.get(0).getId());
-        assertEquals(dto.getName(), sut.get(0).getName());
-        assertEquals(dto.getEmail(), sut.get(0).getEmail());
+        assertThat(sut.getContent()).asList().isNotEmpty();
+        assertThat(sut.getContent()).asList().hasSize(1);
+        assertEquals(ClientDTO.class, sut.getContent().get(0).getClass());
+        assertEquals(dto.getId(), sut.getContent().get(0).getId());
+        assertEquals(dto.getName(), sut.getContent().get(0).getName());
+        assertEquals(dto.getEmail(), sut.getContent().get(0).getEmail());
 
     }
 

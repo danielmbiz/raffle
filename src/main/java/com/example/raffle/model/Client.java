@@ -41,7 +41,7 @@ public class Client {
     @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<RaffleItem> raffleItems;
-
+    
     public static Client of(ClientDTO dto) {
         var client = new Client();
         BeanUtils.copyProperties(dto, client);

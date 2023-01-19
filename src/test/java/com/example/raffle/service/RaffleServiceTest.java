@@ -1,13 +1,20 @@
 package com.example.raffle.service;
 
-import com.example.raffle.dto.RaffleDTO;
-import com.example.raffle.exception.DatabaseException;
-import com.example.raffle.exception.ResourceNotFoundException;
-import com.example.raffle.model.Raffle;
-import com.example.raffle.model.Raffle;
-import com.example.raffle.model.enums.StatusRaffle;
-import com.example.raffle.model.enums.TypeRaffle;
-import com.example.raffle.repository.RaffleRepository;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,18 +23,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import com.example.raffle.dto.RaffleDTO;
+import com.example.raffle.exception.DatabaseException;
+import com.example.raffle.exception.ResourceNotFoundException;
+import com.example.raffle.model.Raffle;
+import com.example.raffle.model.enums.StatusRaffle;
+import com.example.raffle.model.enums.TypeRaffle;
+import com.example.raffle.repository.RaffleRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class RaffleServiceTest {
